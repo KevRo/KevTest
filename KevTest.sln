@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{269D0E57-6943-4214-B946-4EF41ABF62F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KevTest.Core", "src\KevTest.Core\KevTest.Core.csproj", "{7DCA0AD3-08F1-4D59-B2CA-455D59A9CFBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KevTest.Data", "src\KevTest.Data\KevTest.Data.csproj", "{618BAABD-26DC-4608-B663-5F5B4FFA606E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KevTest.Services", "src\KevTest.Services\KevTest.Services.csproj", "{3BAAF755-18F0-4D24-9C9F-409952FB9039}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KevTest.Api", "src\KevTest.Api\KevTest.Api.csproj", "{C4A25CF8-0BD8-4BE9-8708-FF6575286E3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EC3C0972-A90B-45F0-9795-6106574A4CA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KevTest.Tests", "tests\KevTest.Tests\KevTest.Tests.csproj", "{1774E04C-AAB9-4286-A40A-092E7EAB3870}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DCA0AD3-08F1-4D59-B2CA-455D59A9CFBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DCA0AD3-08F1-4D59-B2CA-455D59A9CFBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DCA0AD3-08F1-4D59-B2CA-455D59A9CFBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DCA0AD3-08F1-4D59-B2CA-455D59A9CFBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{618BAABD-26DC-4608-B663-5F5B4FFA606E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{618BAABD-26DC-4608-B663-5F5B4FFA606E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{618BAABD-26DC-4608-B663-5F5B4FFA606E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{618BAABD-26DC-4608-B663-5F5B4FFA606E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BAAF755-18F0-4D24-9C9F-409952FB9039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BAAF755-18F0-4D24-9C9F-409952FB9039}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BAAF755-18F0-4D24-9C9F-409952FB9039}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BAAF755-18F0-4D24-9C9F-409952FB9039}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4A25CF8-0BD8-4BE9-8708-FF6575286E3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4A25CF8-0BD8-4BE9-8708-FF6575286E3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4A25CF8-0BD8-4BE9-8708-FF6575286E3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4A25CF8-0BD8-4BE9-8708-FF6575286E3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1774E04C-AAB9-4286-A40A-092E7EAB3870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1774E04C-AAB9-4286-A40A-092E7EAB3870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1774E04C-AAB9-4286-A40A-092E7EAB3870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1774E04C-AAB9-4286-A40A-092E7EAB3870}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7DCA0AD3-08F1-4D59-B2CA-455D59A9CFBB} = {269D0E57-6943-4214-B946-4EF41ABF62F2}
+		{618BAABD-26DC-4608-B663-5F5B4FFA606E} = {269D0E57-6943-4214-B946-4EF41ABF62F2}
+		{3BAAF755-18F0-4D24-9C9F-409952FB9039} = {269D0E57-6943-4214-B946-4EF41ABF62F2}
+		{C4A25CF8-0BD8-4BE9-8708-FF6575286E3C} = {269D0E57-6943-4214-B946-4EF41ABF62F2}
+		{1774E04C-AAB9-4286-A40A-092E7EAB3870} = {EC3C0972-A90B-45F0-9795-6106574A4CA1}
+	EndGlobalSection
+EndGlobal
