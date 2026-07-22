@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Home Page')}"></head>
+<body>
+    <header th:replace="~{fragments :: header}"></header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div class="text-center">
+                <h1 class="display-4">Welcome</h1>
+                <p>Your new Spring Boot MVC app is up and running on localhost.</p>
+            </div>
+        </main>
+    </div>
+
+    <footer th:replace="~{fragments :: footer}"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/site.js}"></script>
+</body>
+</html>
