@@ -1,0 +1,27 @@
+@model CreateProductDto
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<h1>Add Product</h1>
+
+<div class="row">
+    <div class="col-12 col-md-8 col-lg-6">
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label class="form-label" for="Name">Name</label>
+                <input class="form-control" id="Name" name="Name" value="@Model.Name" />
+                <span class="text-danger">@Html.ValidationMessage("Name")</span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Price">Price</label>
+                <input class="form-control" id="Price" name="Price" type="number" step="0.01" min="0" value="@Model.Price" />
+                <span class="text-danger">@Html.ValidationMessage("Price")</span>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

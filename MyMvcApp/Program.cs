@@ -1,7 +1,15 @@
+using MyMvcApp.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpClient<IProductsApiClient, ProductsApiClient>(client =>
+{
+    var baseUrl = builder.Configuration["ProductsApi:BaseUrl"] ?? "http://localhost:5132";
+    client.BaseAddress = new Uri(baseUrl);
+});
 
 var app = builder.Build();
 

@@ -34,9 +34,15 @@ Open **http://localhost:8080** in your browser.
 
 - `src/main/java/.../JavaMvcAppApplication.java` — app entry point
 - `src/main/java/.../controller/HomeController.java` — Home and Privacy routes
-- `src/main/resources/templates/` — Thymeleaf views (`index.html`, `privacy.html`, shared `fragments.html` for header/footer)
+- `src/main/java/.../controller/ProductController.java` — responsive Products list/create/delete pages, backed by the `KevTest.Api` Products endpoints
+- `src/main/java/.../client/ProductApiClient.java` — `RestClient` wrapper for calling the Products API
+- `src/main/resources/templates/` — Thymeleaf views (`index.html`, `privacy.html`, `products/`, shared `fragments.html` for header/footer)
 - `src/main/resources/static/` — static CSS/JS (Bootstrap pulled from CDN, no local copy needed)
-- `src/main/resources/application.properties` — port and Thymeleaf config
+- `src/main/resources/application.properties` — port, Thymeleaf, and Products API config
+
+## Products page
+
+The nav bar's **Products** link lists products from `KevTest.Api` in a responsive Bootstrap card grid (1 column on phones, up to 4 on wide screens), with a form to add a product and a delete button on each card. Set the API's base URL via `products.api.base-url` in `application.properties` (defaults to `http://localhost:5132`, the API's default HTTP port) — run the API (`dotnet run --project src/KevTest.Api` from the repo root) alongside this app.
 
 ## Note
 
