@@ -31,8 +31,14 @@ Open **http://localhost:5000** in your browser. `launchSettings.json` is set to 
 
 - `Program.cs` — app startup and routing
 - `Controllers/HomeController.cs` — Home and Privacy actions
-- `Views/` — Razor views (`Home/Index.cshtml`, `Home/Privacy.cshtml`, shared layout)
+- `Controllers/ProductsController.cs` — responsive Products list/create/delete pages, backed by the `KevTest.Api` Products endpoints
+- `Services/ProductsApiClient.cs` — typed `HttpClient` wrapper for calling the Products API
+- `Views/` — Razor views (`Home/`, `Products/`, shared layout)
 - `wwwroot/` — static CSS/JS (Bootstrap is pulled from a CDN in the layout, no local copy needed)
+
+## Products page
+
+The nav bar's **Products** link lists products from `KevTest.Api` in a responsive Bootstrap card grid (1 column on phones, up to 4 on wide screens), with a form to add a product and a delete button on each card. Set the API's base URL via `ProductsApi:BaseUrl` in `appsettings.json` (defaults to `http://localhost:5132`, the API's default HTTP port) — run `dotnet run --project ../src/KevTest.Api` alongside this app.
 
 ## Note
 

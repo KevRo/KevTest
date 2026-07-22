@@ -1,0 +1,40 @@
+@model IReadOnlyList<ProductDto>
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h1 class="mb-0">Products</h1>
+    <a class="btn btn-primary" asp-action="Create">Add Product</a>
+</div>
+
+@if (ViewData["ApiError"] is string apiError)
+{
+    <div class="alert alert-warning" role="alert">@apiError</div>
+}
+else if (!Model.Any())
+{
+    <p class="text-muted">No products yet.</p>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+        @foreach (var product in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-break">@product.Name</h5>
+                        <p class="card-text fs-5">@product.Price.ToString("C")</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <form asp-action="Delete" asp-route-id="@product.Id" method="post"
+                              onsubmit="return confirm('Delete @product.Name?');">
+                            <button type="submit" class="btn btn-outline-danger btn-sm w-100">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
