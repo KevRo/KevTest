@@ -1,20 +1,20 @@
 @model IReadOnlyList<ProductDto>
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = Localizer["Products_Title"];
 }
 
 <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
-    <h1 class="mb-0">Products</h1>
-    <a class="btn btn-primary" asp-action="Create">Add Product</a>
+    <h1 class="mb-0">@Localizer["Products_Heading"]</h1>
+    <a class="btn btn-primary" asp-action="Create">@Localizer["Products_Add"]</a>
 </div>
 
-@if (ViewData["ApiError"] is string apiError)
+@if (ViewData["ApiError"] is true)
 {
-    <div class="alert alert-warning" role="alert">@apiError</div>
+    <div class="alert alert-warning" role="alert">@Localizer["Products_ApiError"]</div>
 }
 else if (!Model.Any())
 {
-    <p class="text-muted">No products yet.</p>
+    <p class="text-muted">@Localizer["Products_Empty"]</p>
 }
 else
 {
@@ -29,8 +29,9 @@ else
                     </div>
                     <div class="card-footer bg-transparent border-top-0">
                         <form asp-action="Delete" asp-route-id="@product.Id" method="post"
-                              onsubmit="return confirm('Delete @product.Name?');">
-                            <button type="submit" class="btn btn-outline-danger btn-sm w-100">Delete</button>
+                              data-confirm="@Localizer["Products_DeleteConfirm", product.Name]"
+                              onsubmit="return confirm(this.dataset.confirm);">
+                            <button type="submit" class="btn btn-outline-danger btn-sm w-100">@Localizer["Products_Delete"]</button>
                         </form>
                     </div>
                 </div>

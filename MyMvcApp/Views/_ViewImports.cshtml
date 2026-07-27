@@ -1,4 +1,7 @@
 @using MyMvcApp
 @using MyMvcApp.Models
 @using KevTest.Core.Dtos
+@using System.Globalization
+@using Microsoft.Extensions.Localization
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject IStringLocalizer<SharedResource> Localizer

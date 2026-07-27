@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Home_Title" xml:space="preserve">
+    <value>Home Page</value>
+  </data>
+  <data name="Home_WelcomeHeading" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="Home_WelcomeText" xml:space="preserve">
+    <value>Your new ASP.NET Core MVC app is up and running on localhost.</value>
+  </data>
+  <data name="Privacy_Title" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="Privacy_Heading" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="Privacy_Text" xml:space="preserve">
+    <value>Use this page to detail your site's privacy policy.</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Nav_Products" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="Nav_Privacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="Footer_Copyright" xml:space="preserve">
+    <value>© 2026 - MyMvcApp</value>
+  </data>
+  <data name="Products_Title" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="Products_Heading" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="Products_Add" xml:space="preserve">
+    <value>Add Product</value>
+  </data>
+  <data name="Products_Empty" xml:space="preserve">
+    <value>No products yet.</value>
+  </data>
+  <data name="Products_ApiError" xml:space="preserve">
+    <value>Could not reach the Products API. Make sure KevTest.Api is running.</value>
+  </data>
+  <data name="Products_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Products_DeleteConfirm" xml:space="preserve">
+    <value>Delete {0}?</value>
+  </data>
+  <data name="Products_Create_Title" xml:space="preserve">
+    <value>Add Product</value>
+  </data>
+  <data name="Products_Create_Heading" xml:space="preserve">
+    <value>Add Product</value>
+  </data>
+  <data name="Products_Create_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Products_Create_Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="Products_Create_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Products_Create_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Products_Create_NameRequired" xml:space="preserve">
+    <value>Name is required.</value>
+  </data>
+  <data name="Products_Create_PriceInvalid" xml:space="preserve">
+    <value>Price must be greater than zero.</value>
+  </data>
+  <data name="Lang_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Lang_Irish" xml:space="preserve">
+    <value>Gaeilge</value>
+  </data>
+  <data name="Lang_Italian" xml:space="preserve">
+    <value>Italiano</value>
+  </data>
+</root>

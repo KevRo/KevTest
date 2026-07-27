@@ -44,6 +44,10 @@ Open **http://localhost:8080** in your browser.
 
 The nav bar's **Products** link lists products from `KevTest.Api` in a responsive Bootstrap card grid (1 column on phones, up to 4 on wide screens), with a form to add a product and a delete button on each card. Set the API's base URL via `products.api.base-url` in `application.properties` (defaults to `http://localhost:5132`, the API's default HTTP port) — run the API (`dotnet run --project src/KevTest.Api` from the repo root) alongside this app.
 
+## Language switcher
+
+The flag dropdown in the nav bar switches the UI between English, Irish (Gaeilge), and Italian via `?lang=en|ga|it`, handled by `LocaleChangeInterceptor` and persisted in a cookie by `CookieLocaleResolver` (see `config/WebConfig.java`). All strings live in `messages.properties` / `messages_ga.properties` / `messages_it.properties`, resolved through Thymeleaf's `#{...}` message expressions.
+
 ## Note
 
 This project was hand-written rather than generated via Spring Initializr, because the environment that built it had no internet access to Maven Central and no Maven installed, so it couldn't fetch dependencies or compile/run the project itself. The structure mirrors a standard Spring Boot Web + Thymeleaf project, so `mvn spring-boot:run` should work out of the box once you have JDK 17+ and Maven (or an IDE) available locally.
