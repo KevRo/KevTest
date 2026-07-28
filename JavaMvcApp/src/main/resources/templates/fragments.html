@@ -18,17 +18,31 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarCollapse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link text-dark" th:href="@{/}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link text-dark" th:href="@{/products}">Products</a></li>
-                        <li class="nav-item"><a class="nav-link text-dark" th:href="@{/privacy}">Privacy</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" th:href="@{/}" th:text="#{app.nav.home}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" th:href="@{/products}" th:text="#{app.nav.products}">Products</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" th:href="@{/privacy}" th:text="#{app.nav.privacy}">Privacy</a></li>
                     </ul>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span th:switch="${#locale.language}">
+                                <span th:case="'ga'">🇮🇪</span>
+                                <span th:case="'it'">🇮🇹</span>
+                                <span th:case="*">🇬🇧</span>
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="?lang=en">🇬🇧 <span th:text="#{lang.english}">English</span></a></li>
+                            <li><a class="dropdown-item" href="?lang=ga">🇮🇪 <span th:text="#{lang.irish}">Gaeilge</span></a></li>
+                            <li><a class="dropdown-item" href="?lang=it">🇮🇹 <span th:text="#{lang.italian}">Italiano</span></a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
 
     <footer th:fragment="footer" class="border-top footer text-muted">
-        <div class="container">
+        <div class="container" th:text="#{app.footer.copyright}">
             &copy; 2026 - JavaMvcApp
         </div>
     </footer>

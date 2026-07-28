@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments :: head('Products')}"></head>
+<head th:replace="~{fragments :: head(#{products.title})}"></head>
 <body>
     <header th:replace="~{fragments :: header}"></header>
 
     <div class="container">
         <main role="main" class="pb-3">
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
-                <h1 class="mb-0">Products</h1>
-                <a class="btn btn-primary" th:href="@{/products/new}">Add Product</a>
+                <h1 class="mb-0" th:text="#{products.heading}">Products</h1>
+                <a class="btn btn-primary" th:href="@{/products/new}" th:text="#{products.add}">Add Product</a>
             </div>
 
-            <div class="alert alert-warning" role="alert" th:if="${apiError}" th:text="${apiError}"></div>
+            <div class="alert alert-warning" role="alert" th:if="${apiError}" th:text="#{products.error.unreachable}"></div>
 
-            <p class="text-muted" th:if="${apiError == null and #lists.isEmpty(products)}">No products yet.</p>
+            <p class="text-muted" th:if="${apiError == null and #lists.isEmpty(products)}" th:text="#{products.empty}">No products yet.</p>
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3"
                  th:if="${apiError == null and not #lists.isEmpty(products)}">
@@ -26,9 +26,9 @@
                         </div>
                         <div class="card-footer bg-transparent border-top-0">
                             <form th:action="@{/products/{id}/delete(id=${product.id()})}" method="post"
-                                  th:attr="data-name=${product.name()}"
-                                  onsubmit="return confirm('Delete ' + this.dataset.name + '?');">
-                                <button type="submit" class="btn btn-outline-danger btn-sm w-100">Delete</button>
+                                  th:attr="data-confirm=${#messages.msg('products.delete.confirm', product.name())}"
+                                  onsubmit="return confirm(this.dataset.confirm);">
+                                <button type="submit" class="btn btn-outline-danger btn-sm w-100" th:text="#{products.delete}">Delete</button>
                             </form>
                         </div>
                     </div>

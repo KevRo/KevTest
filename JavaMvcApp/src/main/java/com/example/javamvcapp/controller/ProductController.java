@@ -35,7 +35,7 @@ public class ProductController {
         } catch (RestClientException ex) {
             log.warn("Could not reach the Products API", ex);
             model.addAttribute("products", List.of());
-            model.addAttribute("apiError", "Could not reach the Products API. Make sure KevTest.Api is running.");
+            model.addAttribute("apiError", true);
         }
         return "products/index";
     }
@@ -52,7 +52,7 @@ public class ProductController {
         if (name == null || name.isBlank() || price == null || price.signum() <= 0) {
             model.addAttribute("name", name);
             model.addAttribute("price", price);
-            model.addAttribute("error", "Name is required and price must be greater than zero.");
+            model.addAttribute("invalid", true);
             return "products/create";
         }
 

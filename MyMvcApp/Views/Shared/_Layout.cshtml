@@ -19,15 +19,30 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarCollapse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">@Localizer["Nav_Home"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Products" asp-action="Index">Products</a>
+                            <a class="nav-link text-dark" asp-controller="Products" asp-action="Index">@Localizer["Nav_Products"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">@Localizer["Nav_Privacy"]</a>
                         </li>
                     </ul>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName switch
+                            {
+                                "ga" => "🇮🇪",
+                                "it" => "🇮🇹",
+                                _ => "🇬🇧"
+                            })
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="en" asp-route-returnUrl="@Context.Request.Path">🇬🇧 @Localizer["Lang_English"]</a></li>
+                            <li><a class="dropdown-item" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="ga" asp-route-returnUrl="@Context.Request.Path">🇮🇪 @Localizer["Lang_Irish"]</a></li>
+                            <li><a class="dropdown-item" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="it" asp-route-returnUrl="@Context.Request.Path">🇮🇹 @Localizer["Lang_Italian"]</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -40,7 +55,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - MyMvcApp
+            @Localizer["Footer_Copyright"]
         </div>
     </footer>
 
