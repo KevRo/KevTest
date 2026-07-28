@@ -1,4 +1,4 @@
-namespace MyMvcApp;
+namespace MyMVC.NetApp;
 
 public class SharedResource
 {

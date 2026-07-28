@@ -59,87 +59,87 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Home_Title" xml:space="preserve">
-    <value>Leathanach Baile</value>
+    <value>Pagina Iniziale</value>
   </data>
   <data name="Home_WelcomeHeading" xml:space="preserve">
-    <value>Fáilte</value>
+    <value>Benvenuto</value>
   </data>
   <data name="Home_WelcomeText" xml:space="preserve">
-    <value>Tá d'aip nua ASP.NET Core MVC ag rith ar localhost.</value>
+    <value>La tua nuova app ASP.NET Core MVC è attiva su localhost.</value>
   </data>
   <data name="Privacy_Title" xml:space="preserve">
-    <value>Beartas Príobháideachais</value>
+    <value>Informativa sulla privacy</value>
   </data>
   <data name="Privacy_Heading" xml:space="preserve">
-    <value>Beartas Príobháideachais</value>
+    <value>Informativa sulla privacy</value>
   </data>
   <data name="Privacy_Text" xml:space="preserve">
-    <value>Úsáid an leathanach seo chun beartas príobháideachais do shuímh a mhíniú.</value>
+    <value>Usa questa pagina per descrivere l'informativa sulla privacy del tuo sito.</value>
   </data>
   <data name="Nav_Home" xml:space="preserve">
-    <value>Baile</value>
+    <value>Home</value>
   </data>
   <data name="Nav_Products" xml:space="preserve">
-    <value>Táirgí</value>
+    <value>Prodotti</value>
   </data>
   <data name="Nav_Privacy" xml:space="preserve">
-    <value>Príobháideachas</value>
+    <value>Privacy</value>
   </data>
   <data name="Footer_Copyright" xml:space="preserve">
-    <value>© 2026 - MyMvcApp</value>
+    <value>© 2026 - MyMVC.NetApp</value>
   </data>
   <data name="Products_Title" xml:space="preserve">
-    <value>Táirgí</value>
+    <value>Prodotti</value>
   </data>
   <data name="Products_Heading" xml:space="preserve">
-    <value>Táirgí</value>
+    <value>Prodotti</value>
   </data>
   <data name="Products_Add" xml:space="preserve">
-    <value>Cuir Táirge Leis</value>
+    <value>Aggiungi prodotto</value>
   </data>
   <data name="Products_Empty" xml:space="preserve">
-    <value>Níl aon táirgí ann fós.</value>
+    <value>Nessun prodotto ancora.</value>
   </data>
   <data name="Products_ApiError" xml:space="preserve">
-    <value>Níorbh fhéidir teacht ar API na dTáirgí. Cinntigh go bhfuil KevTest.Api ag rith.</value>
+    <value>Impossibile contattare l'API dei prodotti. Assicurati che KevTest.Api sia in esecuzione.</value>
   </data>
   <data name="Products_Delete" xml:space="preserve">
-    <value>Scrios</value>
+    <value>Elimina</value>
   </data>
   <data name="Products_DeleteConfirm" xml:space="preserve">
-    <value>Scrios {0}?</value>
+    <value>Eliminare {0}?</value>
   </data>
   <data name="Products_Create_Title" xml:space="preserve">
-    <value>Cuir Táirge Leis</value>
+    <value>Aggiungi prodotto</value>
   </data>
   <data name="Products_Create_Heading" xml:space="preserve">
-    <value>Cuir Táirge Leis</value>
+    <value>Aggiungi prodotto</value>
   </data>
   <data name="Products_Create_Name" xml:space="preserve">
-    <value>Ainm</value>
+    <value>Nome</value>
   </data>
   <data name="Products_Create_Price" xml:space="preserve">
-    <value>Praghas</value>
+    <value>Prezzo</value>
   </data>
   <data name="Products_Create_Save" xml:space="preserve">
-    <value>Sábháil</value>
+    <value>Salva</value>
   </data>
   <data name="Products_Create_Cancel" xml:space="preserve">
-    <value>Cealaigh</value>
+    <value>Annulla</value>
   </data>
   <data name="Products_Create_NameRequired" xml:space="preserve">
-    <value>Tá ainm ag teastáil.</value>
+    <value>Il nome è obbligatorio.</value>
   </data>
   <data name="Products_Create_PriceInvalid" xml:space="preserve">
-    <value>Caithfidh an praghas a bheith níos mó ná náid.</value>
+    <value>Il prezzo deve essere maggiore di zero.</value>
   </data>
   <data name="Lang_English" xml:space="preserve">
-    <value>Béarla</value>
+    <value>Inglese</value>
   </data>
   <data name="Lang_Irish" xml:space="preserve">
-    <value>Gaeilge</value>
+    <value>Irlandese</value>
   </data>
   <data name="Lang_Italian" xml:space="preserve">
-    <value>Iodáilis</value>
+    <value>Italiano</value>
   </data>
 </root>

@@ -1,9 +1,9 @@
 using KevTest.Core.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using MyMvcApp.Services;
+using MyMVC.NetApp.Services;
 
-namespace MyMvcApp.Controllers;
+namespace MyMVC.NetApp.Controllers;
 
 public class ProductsController : Controller
 {

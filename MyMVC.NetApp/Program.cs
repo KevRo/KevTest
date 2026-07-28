@@ -1,7 +1,7 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
-using MyMvcApp.Services;
+using MyMVC.NetApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,4 @@
-# MyMvcApp
+# MyMVC.NetApp
 
 A minimal ASP.NET Core MVC app (.NET 8).
 
@@ -12,7 +12,7 @@ dotnet --version
 
 ## Run it
 
-From this folder (the one containing `MyMvcApp.csproj`):
+From this folder (the one containing `MyMVC.NetApp.csproj`):
 
 ```
 dotnet restore

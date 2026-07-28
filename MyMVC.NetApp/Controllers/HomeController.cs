@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using MyMvcApp.Models;
+using MyMVC.NetApp.Models;
 
-namespace MyMvcApp.Controllers;
+namespace MyMVC.NetApp.Controllers;
 
 public class HomeController : Controller
 {

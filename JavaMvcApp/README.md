@@ -1,6 +1,6 @@
 # JavaMvcApp
 
-Java equivalent of the MyMvcApp project — a minimal Spring Boot MVC app with the same Home/Privacy pages, using Thymeleaf instead of Razor.
+Java equivalent of the MyMVC.NetApp project — a minimal Spring Boot MVC app with the same Home/Privacy pages, using Thymeleaf instead of Razor.
 
 ## Prerequisites
 

@@ -1,6 +1,6 @@
 using KevTest.Core.Dtos;
 
-namespace MyMvcApp.Services;
+namespace MyMVC.NetApp.Services;
 
 public interface IProductsApiClient
 {
