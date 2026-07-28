@@ -1,7 +1,7 @@
 using System.Net.Http.Json;
 using KevTest.Core.Dtos;
 
-namespace MyMvcApp.Services;
+namespace MyMVC.NetApp.Services;
 
 public class ProductsApiClient : IProductsApiClient
 {

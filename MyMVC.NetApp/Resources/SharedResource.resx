@@ -59,85 +59,85 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Home_Title" xml:space="preserve">
-    <value>Pagina Iniziale</value>
+    <value>Home Page</value>
   </data>
   <data name="Home_WelcomeHeading" xml:space="preserve">
-    <value>Benvenuto</value>
+    <value>Welcome</value>
   </data>
   <data name="Home_WelcomeText" xml:space="preserve">
-    <value>La tua nuova app ASP.NET Core MVC è attiva su localhost.</value>
+    <value>Your new ASP.NET Core MVC app is up and running on localhost.</value>
   </data>
   <data name="Privacy_Title" xml:space="preserve">
-    <value>Informativa sulla privacy</value>
+    <value>Privacy Policy</value>
   </data>
   <data name="Privacy_Heading" xml:space="preserve">
-    <value>Informativa sulla privacy</value>
+    <value>Privacy Policy</value>
   </data>
   <data name="Privacy_Text" xml:space="preserve">
-    <value>Usa questa pagina per descrivere l'informativa sulla privacy del tuo sito.</value>
+    <value>Use this page to detail your site's privacy policy.</value>
   </data>
   <data name="Nav_Home" xml:space="preserve">
     <value>Home</value>
   </data>
   <data name="Nav_Products" xml:space="preserve">
-    <value>Prodotti</value>
+    <value>Products</value>
   </data>
   <data name="Nav_Privacy" xml:space="preserve">
     <value>Privacy</value>
   </data>
   <data name="Footer_Copyright" xml:space="preserve">
-    <value>© 2026 - MyMvcApp</value>
+    <value>© 2026 - MyMVC.NetApp</value>
   </data>
   <data name="Products_Title" xml:space="preserve">
-    <value>Prodotti</value>
+    <value>Products</value>
   </data>
   <data name="Products_Heading" xml:space="preserve">
-    <value>Prodotti</value>
+    <value>Products</value>
   </data>
   <data name="Products_Add" xml:space="preserve">
-    <value>Aggiungi prodotto</value>
+    <value>Add Product</value>
   </data>
   <data name="Products_Empty" xml:space="preserve">
-    <value>Nessun prodotto ancora.</value>
+    <value>No products yet.</value>
   </data>
   <data name="Products_ApiError" xml:space="preserve">
-    <value>Impossibile contattare l'API dei prodotti. Assicurati che KevTest.Api sia in esecuzione.</value>
+    <value>Could not reach the Products API. Make sure KevTest.Api is running.</value>
   </data>
   <data name="Products_Delete" xml:space="preserve">
-    <value>Elimina</value>
+    <value>Delete</value>
   </data>
   <data name="Products_DeleteConfirm" xml:space="preserve">
-    <value>Eliminare {0}?</value>
+    <value>Delete {0}?</value>
   </data>
   <data name="Products_Create_Title" xml:space="preserve">
-    <value>Aggiungi prodotto</value>
+    <value>Add Product</value>
   </data>
   <data name="Products_Create_Heading" xml:space="preserve">
-    <value>Aggiungi prodotto</value>
+    <value>Add Product</value>
   </data>
   <data name="Products_Create_Name" xml:space="preserve">
-    <value>Nome</value>
+    <value>Name</value>
   </data>
   <data name="Products_Create_Price" xml:space="preserve">
-    <value>Prezzo</value>
+    <value>Price</value>
   </data>
   <data name="Products_Create_Save" xml:space="preserve">
-    <value>Salva</value>
+    <value>Save</value>
   </data>
   <data name="Products_Create_Cancel" xml:space="preserve">
-    <value>Annulla</value>
+    <value>Cancel</value>
   </data>
   <data name="Products_Create_NameRequired" xml:space="preserve">
-    <value>Il nome è obbligatorio.</value>
+    <value>Name is required.</value>
   </data>
   <data name="Products_Create_PriceInvalid" xml:space="preserve">
-    <value>Il prezzo deve essere maggiore di zero.</value>
+    <value>Price must be greater than zero.</value>
   </data>
   <data name="Lang_English" xml:space="preserve">
-    <value>Inglese</value>
+    <value>English</value>
   </data>
   <data name="Lang_Irish" xml:space="preserve">
-    <value>Irlandese</value>
+    <value>Gaeilge</value>
   </data>
   <data name="Lang_Italian" xml:space="preserve">
     <value>Italiano</value>
