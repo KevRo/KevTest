@@ -5,6 +5,11 @@ html {
 body {
   margin-bottom: 60px;
   background-color: lightcoral;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+[data-bs-theme="dark"] body {
+  background-color: #121212;
 }
 
 .footer {
@@ -13,4 +18,8 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px;
+}
+
+#themeToggle {
+  line-height: 1;
 }
