@@ -59,4 +59,20 @@ public class ExternalApiClientTests
 
         Assert.Equal(HttpMethod.Delete, handler.LastRequest!.Method);
     }
+
+    [Fact]
+    public async Task PutAsync_SendsBody_AndReturnsDeserializedResponse()
+    {
+        var handler = new FakeHttpMessageHandler(_ => new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = JsonContent.Create(new Widget(3, "Updated Sprocket"))
+        });
+        var client = new ExternalApiClient(new HttpClient(handler) { BaseAddress = new Uri("https://example.test/") });
+
+        var result = await client.PutAsync<Widget, Widget>("widgets/1", new Widget(1, "Updated Sprocket"));
+
+        Assert.NotNull(result);
+        Assert.Equal("Updated Sprocket", result!.Name);
+        Assert.Equal(HttpMethod.Put, handler.LastRequest!.Method);
+    }
 }
