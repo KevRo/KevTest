@@ -48,6 +48,10 @@ The nav bar's **Products** link lists products from `KevTest.Api` in a responsiv
 
 The flag dropdown in the nav bar switches the UI between English, Irish (Gaeilge), and Italian via `?lang=en|ga|it`, handled by `LocaleChangeInterceptor` and persisted in a cookie by `CookieLocaleResolver` (see `config/WebConfig.java`). All strings live in `messages.properties` / `messages_ga.properties` / `messages_it.properties`, resolved through Thymeleaf's `#{...}` message expressions.
 
+## Dark mode
+
+The 🌙/☀️ button next to the language dropdown toggles `data-bs-theme` on `<html>`, which flips Bootstrap's built-in dark-mode CSS variables (navbar, cards, buttons, alerts, etc.) plus a dark variant of the page background in `site.css`. The choice is stored in `localStorage` and applied via a small inline script in `<head>` before first paint, so there's no flash of the wrong theme; it falls back to the OS's `prefers-color-scheme` when nothing is stored yet.
+
 ## Note
 
 This project was hand-written rather than generated via Spring Initializr, because the environment that built it had no internet access to Maven Central and no Maven installed, so it couldn't fetch dependencies or compile/run the project itself. The structure mirrors a standard Spring Boot Web + Thymeleaf project, so `mvn spring-boot:run` should work out of the box once you have JDK 17+ and Maven (or an IDE) available locally.
