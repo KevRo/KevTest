@@ -1,0 +1,60 @@
+@model MyMVC.NetApp.Models.Strava.StravaSyncStatus?
+@{
+    ViewData["Title"] = Localizer["Strava_Title"];
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h1 class="mb-0">@Localizer["Strava_Heading"]</h1>
+</div>
+
+<p class="text-muted">@Localizer["Strava_Intro"]</p>
+
+@if (TempData["StravaError"] is string errorCode)
+{
+    var message = errorCode switch
+    {
+        "ConfigMissing" => Localizer["Strava_ConfigMissing"],
+        "Denied" => Localizer["Strava_OAuthDenied"],
+        "InvalidState" => Localizer["Strava_OAuthError"],
+        _ => Localizer["Strava_ApiError"],
+    };
+    <div class="alert alert-danger" role="alert">@message</div>
+}
+
+@if (TempData["StravaSyncSummary"] is string summary)
+{
+    var parts = summary.Split('|', 2);
+    var activityCount = parts.Length > 1 ? parts[1] : "0";
+    <div class="alert alert-success" role="alert">@Localizer["Strava_SyncSuccess", parts[0], activityCount]</div>
+}
+
+<div class="card shadow-sm" style="max-width: 32rem;">
+    <div class="card-body">
+        @if (Model is null)
+        {
+            <p class="mb-3">@Localizer["Strava_NotConnected"]</p>
+        }
+        else
+        {
+            <div class="d-flex align-items-center gap-3 mb-3">
+                @if (!string.IsNullOrEmpty(Model.ProfileImageUrl))
+                {
+                    <img src="@Model.ProfileImageUrl" alt="" class="rounded-circle" width="56" height="56" />
+                }
+                <div>
+                    <h5 class="mb-0">@Model.DisplayName</h5>
+                    @if (!string.IsNullOrEmpty(Model.City) || !string.IsNullOrEmpty(Model.Country))
+                    {
+                        <small class="text-muted">@Model.City@(!string.IsNullOrEmpty(Model.City) && !string.IsNullOrEmpty(Model.Country) ? ", " : "")@Model.Country</small>
+                    }
+                </div>
+            </div>
+            <p class="mb-1">@Localizer["Strava_ActivityCount"]: <strong>@Model.ActivityCount</strong></p>
+            <p class="text-muted small">@Localizer["Strava_LastSynced"]: @Model.LastSyncedUtc.ToLocalTime().ToString("g")</p>
+        }
+
+        <a class="btn btn-primary mt-2" asp-controller="Strava" asp-action="Connect">
+            <span aria-hidden="true">🚴</span> @Localizer["Strava_ConnectButton"]
+        </a>
+    </div>
+</div>
