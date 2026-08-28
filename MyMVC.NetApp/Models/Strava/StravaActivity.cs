@@ -11,7 +11,9 @@ public class StravaActivity
     public int MovingTime { get; set; }
     public int ElapsedTime { get; set; }
     public double TotalElevationGain { get; set; }
-    public DateTimeOffset StartDateUtc { get; set; }
+    // Stored as DateTime (not DateTimeOffset) because SQLite can't translate ORDER BY over
+    // DateTimeOffset columns; this one is what activities are sorted by.
+    public DateTime StartDateUtc { get; set; }
     public DateTimeOffset StartDateLocal { get; set; }
     public string? Timezone { get; set; }
     public double? AverageSpeed { get; set; }

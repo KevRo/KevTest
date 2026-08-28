@@ -24,7 +24,7 @@ namespace MyMVC.NetApp.Migrations
                     MovingTime = table.Column<int>(type: "INTEGER", nullable: false),
                     ElapsedTime = table.Column<int>(type: "INTEGER", nullable: false),
                     TotalElevationGain = table.Column<double>(type: "REAL", nullable: false),
-                    StartDateUtc = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    StartDateUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
                     StartDateLocal = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
                     Timezone = table.Column<string>(type: "TEXT", nullable: true),
                     AverageSpeed = table.Column<double>(type: "REAL", nullable: true),

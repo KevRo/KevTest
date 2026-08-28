@@ -164,4 +164,97 @@ public class StravaSyncServiceTests
         Assert.Equal("Dublin", status.City);
         Assert.Equal(2, status.ActivityCount);
     }
+
+    private static void AddActivity(StravaDbContext db, long id, long athleteId, DateTimeOffset startDate)
+    {
+        db.StravaActivities.Add(new StravaActivity
+        {
+            Id = id,
+            AthleteId = athleteId,
+            Name = $"Activity {id}",
+            Type = "Run",
+            StartDateUtc = startDate.UtcDateTime,
+            StartDateLocal = startDate,
+            RawJson = "{}",
+            FetchedAtUtc = DateTime.UtcNow,
+        });
+    }
+
+    [Fact]
+    public async Task GetActivitiesAsync_OrdersByStartDateDescending()
+    {
+        using var db = CreateContext();
+        AddActivity(db, 1, 42, new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero));
+        AddActivity(db, 2, 42, new DateTimeOffset(2026, 3, 1, 0, 0, 0, TimeSpan.Zero));
+        AddActivity(db, 3, 42, new DateTimeOffset(2026, 2, 1, 0, 0, 0, TimeSpan.Zero));
+        await db.SaveChangesAsync();
+        var service = CreateService(CreateApiClientMock(2), db);
+
+        var page = await service.GetActivitiesAsync(42, 1, 100);
+
+        Assert.Equal(new long[] { 2, 3, 1 }, page.Items.Select(i => i.Id));
+    }
+
+    [Fact]
+    public async Task GetActivitiesAsync_PagesResults_UsingRequestedPageSize()
+    {
+        using var db = CreateContext();
+        for (var i = 1; i <= 5; i++)
+        {
+            AddActivity(db, i, 42, new DateTimeOffset(2026, 1, i, 0, 0, 0, TimeSpan.Zero));
+        }
+        await db.SaveChangesAsync();
+        var service = CreateService(CreateApiClientMock(2), db);
+
+        var firstPage = await service.GetActivitiesAsync(42, 1, 2);
+        var secondPage = await service.GetActivitiesAsync(42, 2, 2);
+
+        Assert.Equal(2, firstPage.Items.Count);
+        Assert.Equal(5, firstPage.TotalCount);
+        Assert.Equal(3, firstPage.TotalPages);
+        Assert.Equal(new long[] { 5, 4 }, firstPage.Items.Select(i => i.Id));
+        Assert.Equal(new long[] { 3, 2 }, secondPage.Items.Select(i => i.Id));
+    }
+
+    [Fact]
+    public async Task GetActivitiesAsync_ClampsRequestedPage_ToLastAvailablePage()
+    {
+        using var db = CreateContext();
+        AddActivity(db, 1, 42, DateTimeOffset.UtcNow);
+        await db.SaveChangesAsync();
+        var service = CreateService(CreateApiClientMock(2), db);
+
+        var page = await service.GetActivitiesAsync(42, 99, 100);
+
+        Assert.Equal(1, page.Page);
+        Assert.Single(page.Items);
+    }
+
+    [Fact]
+    public async Task GetActivitiesAsync_OnlyReturnsActivitiesForRequestedAthlete()
+    {
+        using var db = CreateContext();
+        AddActivity(db, 1, 42, DateTimeOffset.UtcNow);
+        AddActivity(db, 2, 99, DateTimeOffset.UtcNow);
+        await db.SaveChangesAsync();
+        var service = CreateService(CreateApiClientMock(2), db);
+
+        var page = await service.GetActivitiesAsync(42, 1, 100);
+
+        Assert.Single(page.Items);
+        Assert.Equal(1, page.Items[0].Id);
+    }
+
+    [Fact]
+    public async Task GetActivitiesAsync_ReturnsEmptyPage_WhenAthleteHasNoActivities()
+    {
+        using var db = CreateContext();
+        var service = CreateService(CreateApiClientMock(2), db);
+
+        var page = await service.GetActivitiesAsync(42, 1, 100);
+
+        Assert.Empty(page.Items);
+        Assert.Equal(0, page.TotalCount);
+        Assert.Equal(1, page.TotalPages);
+    }
 }

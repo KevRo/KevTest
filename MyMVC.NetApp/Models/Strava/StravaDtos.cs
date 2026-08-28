@@ -74,3 +74,18 @@ public record StravaSyncStatus(
     string? ProfileImageUrl,
     DateTime LastSyncedUtc,
     int ActivityCount);
+
+public record StravaActivityListItem(
+    long Id,
+    string? Name,
+    string? Type,
+    DateTimeOffset StartDateLocal,
+    double Distance,
+    int MovingTime);
+
+public record StravaActivityPage(IReadOnlyList<StravaActivityListItem> Items, int Page, int PageSize, int TotalCount)
+{
+    public int TotalPages => TotalCount == 0 ? 1 : (int)Math.Ceiling(TotalCount / (double)PageSize);
+}
+
+public record StravaPageViewModel(StravaSyncStatus? Status, StravaActivityPage Activities);

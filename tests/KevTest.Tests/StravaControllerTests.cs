@@ -51,17 +51,53 @@ public class StravaControllerTests
     }
 
     [Fact]
-    public async Task Index_ReturnsViewWithStatus_FromSyncService()
+    public async Task Index_ReturnsViewWithStatusAndActivities_FromSyncService()
+    {
+        var status = new StravaSyncStatus(42, "Kev Roche", "Dublin", "Ireland", null, DateTime.UtcNow, 7);
+        var activityPage = new StravaActivityPage(
+            new[] { new StravaActivityListItem(1, "Morning Run", "Run", DateTimeOffset.Now, 5000, 1500) }, 1, 100, 7);
+        var syncServiceMock = new Mock<IStravaSyncService>();
+        syncServiceMock.Setup(s => s.GetStatusAsync(It.IsAny<CancellationToken>())).ReturnsAsync(status);
+        syncServiceMock.Setup(s => s.GetActivitiesAsync(42, 1, 100, It.IsAny<CancellationToken>())).ReturnsAsync(activityPage);
+        var controller = CreateController(syncServiceMock: syncServiceMock);
+
+        var result = await controller.Index(page: 1, CancellationToken.None);
+
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsType<StravaPageViewModel>(viewResult.Model);
+        Assert.Same(status, model.Status);
+        Assert.Same(activityPage, model.Activities);
+    }
+
+    [Fact]
+    public async Task Index_RequestsPage1_WhenNotConnected()
+    {
+        var syncServiceMock = new Mock<IStravaSyncService>();
+        syncServiceMock.Setup(s => s.GetStatusAsync(It.IsAny<CancellationToken>())).ReturnsAsync((StravaSyncStatus?)null);
+        var controller = CreateController(syncServiceMock: syncServiceMock);
+
+        var result = await controller.Index(page: 1, CancellationToken.None);
+
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsType<StravaPageViewModel>(viewResult.Model);
+        Assert.Null(model.Status);
+        Assert.Empty(model.Activities.Items);
+        syncServiceMock.Verify(s => s.GetActivitiesAsync(It.IsAny<long>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task Index_ClampsPageToAtLeastOne_WhenPageIsZeroOrNegative()
     {
         var status = new StravaSyncStatus(42, "Kev Roche", "Dublin", "Ireland", null, DateTime.UtcNow, 7);
         var syncServiceMock = new Mock<IStravaSyncService>();
         syncServiceMock.Setup(s => s.GetStatusAsync(It.IsAny<CancellationToken>())).ReturnsAsync(status);
+        syncServiceMock.Setup(s => s.GetActivitiesAsync(42, 1, 100, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new StravaActivityPage(Array.Empty<StravaActivityListItem>(), 1, 100, 0));
         var controller = CreateController(syncServiceMock: syncServiceMock);
 
-        var result = await controller.Index(CancellationToken.None);
+        await controller.Index(page: -5, CancellationToken.None);
 
-        var viewResult = Assert.IsType<ViewResult>(result);
-        Assert.Same(status, viewResult.Model);
+        syncServiceMock.Verify(s => s.GetActivitiesAsync(42, 1, 100, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]

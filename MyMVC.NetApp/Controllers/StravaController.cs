@@ -9,6 +9,7 @@ namespace MyMVC.NetApp.Controllers;
 public class StravaController : Controller
 {
     private const string StateCookieName = "strava_oauth_state";
+    private const int ActivitiesPageSize = 100;
 
     private readonly IStravaApiClient _stravaApiClient;
     private readonly IStravaSyncService _syncService;
@@ -30,10 +31,14 @@ public class StravaController : Controller
         _localizer = localizer;
     }
 
-    public async Task<IActionResult> Index(CancellationToken cancellationToken)
+    public async Task<IActionResult> Index(int page, CancellationToken cancellationToken)
     {
         var status = await _syncService.GetStatusAsync(cancellationToken);
-        return View(status);
+        var activities = status is null
+            ? new StravaActivityPage(Array.Empty<StravaActivityListItem>(), 1, ActivitiesPageSize, 0)
+            : await _syncService.GetActivitiesAsync(status.AthleteId, Math.Max(page, 1), ActivitiesPageSize, cancellationToken);
+
+        return View(new StravaPageViewModel(status, activities));
     }
 
     [HttpGet]

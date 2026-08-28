@@ -181,4 +181,34 @@
   <data name="Strava_SyncSuccess" xml:space="preserve">
     <value>Tarraingíodh sonraí do {0}: {1} gníomhaíocht stóráilte.</value>
   </data>
+  <data name="Strava_Activities_Heading" xml:space="preserve">
+    <value>Gníomhaíochtaí</value>
+  </data>
+  <data name="Strava_Activities_Empty" xml:space="preserve">
+    <value>Níor tarraingíodh aon ghníomhaíocht fós.</value>
+  </data>
+  <data name="Strava_Activities_Date" xml:space="preserve">
+    <value>Dáta</value>
+  </data>
+  <data name="Strava_Activities_Name" xml:space="preserve">
+    <value>Ainm</value>
+  </data>
+  <data name="Strava_Activities_Type" xml:space="preserve">
+    <value>Cineál</value>
+  </data>
+  <data name="Strava_Activities_Distance" xml:space="preserve">
+    <value>Fad</value>
+  </data>
+  <data name="Strava_Activities_Duration" xml:space="preserve">
+    <value>Fad ama</value>
+  </data>
+  <data name="Strava_Pagination_Summary" xml:space="preserve">
+    <value>Leathanach {0} as {1}</value>
+  </data>
+  <data name="Strava_Pagination_Previous" xml:space="preserve">
+    <value>Roimhe seo</value>
+  </data>
+  <data name="Strava_Pagination_Next" xml:space="preserve">
+    <value>Ar aghaidh</value>
+  </data>
 </root>

@@ -11,7 +11,7 @@ using MyMVC.NetApp.Data;
 namespace MyMVC.NetApp.Migrations
 {
     [DbContext(typeof(StravaDbContext))]
-    [Migration("20260828144817_InitialCreate")]
+    [Migration("20260828162334_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -86,7 +86,7 @@ namespace MyMVC.NetApp.Migrations
                     b.Property<DateTimeOffset>("StartDateLocal")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("StartDateUtc")
+                    b.Property<DateTime>("StartDateUtc")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Timezone")

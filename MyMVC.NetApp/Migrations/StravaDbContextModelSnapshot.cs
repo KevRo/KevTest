@@ -83,7 +83,7 @@ namespace MyMVC.NetApp.Migrations
                     b.Property<DateTimeOffset>("StartDateLocal")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("StartDateUtc")
+                    b.Property<DateTime>("StartDateUtc")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Timezone")

@@ -181,4 +181,34 @@
   <data name="Strava_SyncSuccess" xml:space="preserve">
     <value>Dati importati per {0}: {1} attività memorizzate.</value>
   </data>
+  <data name="Strava_Activities_Heading" xml:space="preserve">
+    <value>Attività</value>
+  </data>
+  <data name="Strava_Activities_Empty" xml:space="preserve">
+    <value>Nessuna attività ancora importata.</value>
+  </data>
+  <data name="Strava_Activities_Date" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Strava_Activities_Name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Strava_Activities_Type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Strava_Activities_Distance" xml:space="preserve">
+    <value>Distanza</value>
+  </data>
+  <data name="Strava_Activities_Duration" xml:space="preserve">
+    <value>Durata</value>
+  </data>
+  <data name="Strava_Pagination_Summary" xml:space="preserve">
+    <value>Pagina {0} di {1}</value>
+  </data>
+  <data name="Strava_Pagination_Previous" xml:space="preserve">
+    <value>Precedente</value>
+  </data>
+  <data name="Strava_Pagination_Next" xml:space="preserve">
+    <value>Successivo</value>
+  </data>
 </root>

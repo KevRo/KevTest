@@ -72,6 +72,25 @@ public class StravaSyncService : IStravaSyncService
             activityCount);
     }
 
+    public async Task<StravaActivityPage> GetActivitiesAsync(
+        long athleteId, int page, int pageSize, CancellationToken cancellationToken = default)
+    {
+        var baseQuery = _db.StravaActivities.Where(a => a.AthleteId == athleteId);
+
+        var totalCount = await baseQuery.CountAsync(cancellationToken);
+        var totalPages = totalCount == 0 ? 1 : (int)Math.Ceiling(totalCount / (double)pageSize);
+        var clampedPage = Math.Clamp(page, 1, totalPages);
+
+        var items = await baseQuery
+            .OrderByDescending(a => a.StartDateUtc)
+            .Skip((clampedPage - 1) * pageSize)
+            .Take(pageSize)
+            .Select(a => new StravaActivityListItem(a.Id, a.Name, a.Type, a.StartDateLocal, a.Distance, a.MovingTime))
+            .ToListAsync(cancellationToken);
+
+        return new StravaActivityPage(items, clampedPage, pageSize, totalCount);
+    }
+
     private async Task UpsertTokenAsync(long athleteId, StravaTokenExchangeDto token, DateTime now, CancellationToken cancellationToken)
     {
         var entity = await _db.StravaTokens.FindAsync(new object[] { athleteId }, cancellationToken);
@@ -151,7 +170,7 @@ public class StravaSyncService : IStravaSyncService
                 entity.MovingTime = dto.MovingTime;
                 entity.ElapsedTime = dto.ElapsedTime;
                 entity.TotalElevationGain = dto.TotalElevationGain;
-                entity.StartDateUtc = dto.StartDate;
+                entity.StartDateUtc = dto.StartDate.UtcDateTime;
                 entity.StartDateLocal = dto.StartDateLocal;
                 entity.Timezone = dto.Timezone;
                 entity.AverageSpeed = dto.AverageSpeed;

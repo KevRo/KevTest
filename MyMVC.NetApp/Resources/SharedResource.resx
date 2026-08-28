@@ -181,4 +181,34 @@
   <data name="Strava_SyncSuccess" xml:space="preserve">
     <value>Pulled data for {0}: {1} activities stored.</value>
   </data>
+  <data name="Strava_Activities_Heading" xml:space="preserve">
+    <value>Activities</value>
+  </data>
+  <data name="Strava_Activities_Empty" xml:space="preserve">
+    <value>No activities pulled yet.</value>
+  </data>
+  <data name="Strava_Activities_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Strava_Activities_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Strava_Activities_Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Strava_Activities_Distance" xml:space="preserve">
+    <value>Distance</value>
+  </data>
+  <data name="Strava_Activities_Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="Strava_Pagination_Summary" xml:space="preserve">
+    <value>Page {0} of {1}</value>
+  </data>
+  <data name="Strava_Pagination_Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Strava_Pagination_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
 </root>
