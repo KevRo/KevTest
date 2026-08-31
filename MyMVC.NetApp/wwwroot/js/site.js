@@ -1,27 +1,25 @@
+// Site scripts go here.
+
 (function () {
-    var btn = document.getElementById('themeToggle');
-    if (!btn) {
-        return;
+  var root = document.documentElement;
+  var toggleBtn = document.getElementById('themeToggle');
+  var icon = document.getElementById('themeIcon');
+
+  function updateIcon(theme) {
+    if (icon) {
+      icon.textContent = theme === 'dark' ? '☀️' : '🌙';
     }
+  }
 
-    function currentTheme() {
-        return document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'dark' : 'light';
-    }
+  updateIcon(root.getAttribute('data-bs-theme') || 'light');
 
-    function updateButton() {
-        var isDark = currentTheme() === 'dark';
-        btn.textContent = isDark ? '☀️' : '🌙';
-        btn.setAttribute('aria-pressed', String(isDark));
-    }
-
-    updateButton();
-
-    btn.addEventListener('click', function () {
-        var next = currentTheme() === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-bs-theme', next);
-        try {
-            localStorage.setItem('theme', next);
-        } catch (e) {}
-        updateButton();
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function () {
+      var current = root.getAttribute('data-bs-theme') === 'dark' ? 'dark' : 'light';
+      var next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-bs-theme', next);
+      localStorage.setItem('theme', next);
+      updateIcon(next);
     });
+  }
 })();

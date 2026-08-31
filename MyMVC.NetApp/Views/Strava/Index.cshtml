@@ -1,0 +1,162 @@
+@model MyMVC.NetApp.Models.Strava.StravaPageViewModel
+@{
+    ViewData["Title"] = Localizer["Strava_Title"];
+    var status = Model.Status;
+    var activities = Model.Activities;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h1 class="mb-0">@Localizer["Strava_Heading"]</h1>
+</div>
+
+<p class="text-muted">@Localizer["Strava_Intro"]</p>
+
+@if (TempData["StravaError"] is string errorCode)
+{
+    var message = errorCode switch
+    {
+        "ConfigMissing" => Localizer["Strava_ConfigMissing"],
+        "Denied" => Localizer["Strava_OAuthDenied"],
+        "InvalidState" => Localizer["Strava_OAuthError"],
+        _ => Localizer["Strava_ApiError"],
+    };
+    <div class="alert alert-danger" role="alert">@message</div>
+}
+
+@if (TempData["StravaSyncSummary"] is string summary)
+{
+    var parts = summary.Split('|', 2);
+    var activityCount = parts.Length > 1 ? parts[1] : "0";
+    <div class="alert alert-success" role="alert">@Localizer["Strava_SyncSuccess", parts[0], activityCount]</div>
+}
+
+<div class="row g-4">
+    <div class="col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                @if (status is null)
+                {
+                    <p class="mb-3">@Localizer["Strava_NotConnected"]</p>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        @if (!string.IsNullOrEmpty(status.ProfileImageUrl))
+                        {
+                            <img src="@status.ProfileImageUrl" alt="" class="rounded-circle" width="56" height="56" />
+                        }
+                        <div>
+                            <h5 class="mb-0">@status.DisplayName</h5>
+                            @if (!string.IsNullOrEmpty(status.City) || !string.IsNullOrEmpty(status.Country))
+                            {
+                                <small class="text-muted">@status.City@(!string.IsNullOrEmpty(status.City) && !string.IsNullOrEmpty(status.Country) ? ", " : "")@status.Country</small>
+                            }
+                        </div>
+                    </div>
+                    <p class="mb-1">@Localizer["Strava_ActivityCount"]: <strong>@status.ActivityCount</strong></p>
+                    <p class="mb-1">@Localizer["Strava_TotalDistance"]: <strong>@((status.TotalDistanceMeters / 1000).ToString("0.0")) km</strong></p>
+                    <p class="text-muted small">@Localizer["Strava_LastSynced"]: @status.LastSyncedUtc.ToLocalTime().ToString("g")</p>
+                }
+
+                <a id="stravaConnectBtn" class="btn btn-primary mt-2" asp-controller="Strava" asp-action="Connect"
+                   data-fetching-text="@Localizer["Strava_Fetching"]">
+                    <span aria-hidden="true">🚴</span> <span id="stravaConnectBtnLabel">@Localizer["Strava_ConnectButton"]</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 mb-3">@Localizer["Strava_Activities_Heading"]</h2>
+
+                @if (activities.TotalCount == 0)
+                {
+                    <p class="text-muted mb-0">@Localizer["Strava_Activities_Empty"]</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th scope="col">@Localizer["Strava_Activities_Date"]</th>
+                                    <th scope="col">@Localizer["Strava_Activities_Name"]</th>
+                                    <th scope="col">@Localizer["Strava_Activities_Type"]</th>
+                                    <th scope="col" class="text-end">@Localizer["Strava_Activities_Distance"]</th>
+                                    <th scope="col" class="text-end">@Localizer["Strava_Activities_Duration"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var activity in activities.Items)
+                                {
+                                    <tr>
+                                        <td class="text-nowrap">@activity.StartDateLocal.ToString("yyyy-MM-dd")</td>
+                                        <td class="text-break">@activity.Name</td>
+                                        <td>@activity.Type</td>
+                                        <td class="text-end text-nowrap">@((activity.Distance / 1000).ToString("0.00")) km</td>
+                                        <td class="text-end text-nowrap">@TimeSpan.FromSeconds(activity.MovingTime).ToString(@"hh\:mm\:ss")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <small class="text-muted">@Localizer["Strava_Pagination_Summary", activities.Page, activities.TotalPages]</small>
+                        <nav aria-label="@Localizer["Strava_Activities_Heading"]">
+                            <ul class="pagination pagination-sm flex-wrap mb-0">
+                                <li class="page-item @(activities.Page <= 1 ? "disabled" : "")">
+                                    <a class="page-link" asp-action="Index" asp-route-page="@(activities.Page - 1)" aria-label="@Localizer["Strava_Pagination_Previous"]">&laquo;</a>
+                                </li>
+                                @for (var p = 1; p <= activities.TotalPages; p++)
+                                {
+                                    <li class="page-item @(p == activities.Page ? "active" : "")">
+                                        <a class="page-link" asp-action="Index" asp-route-page="@p">@p</a>
+                                    </li>
+                                }
+                                <li class="page-item @(activities.Page >= activities.TotalPages ? "disabled" : "")">
+                                    <a class="page-link" asp-action="Index" asp-route-page="@(activities.Page + 1)" aria-label="@Localizer["Strava_Pagination_Next"]">&raquo;</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            var btn = document.getElementById('stravaConnectBtn');
+            var label = document.getElementById('stravaConnectBtnLabel');
+            if (!btn || !label) {
+                return;
+            }
+            btn.addEventListener('click', function (e) {
+                if (btn.classList.contains('disabled')) {
+                    e.preventDefault();
+                    return;
+                }
+
+                // The click leads to an external OAuth redirect, which can complete fast
+                // enough that the browser navigates away before this frame is ever painted.
+                // Hold navigation for one short beat so the "Fetching..." animation is
+                // actually visible before the page leaves.
+                e.preventDefault();
+                var fetchingText = btn.dataset.fetchingText || 'Fetching';
+                label.innerHTML = fetchingText + '<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>';
+                btn.classList.add('disabled');
+                btn.setAttribute('aria-disabled', 'true');
+
+                var href = btn.getAttribute('href');
+                window.setTimeout(function () {
+                    window.location.href = href;
+                }, 400);
+            });
+        })();
+    </script>
+}

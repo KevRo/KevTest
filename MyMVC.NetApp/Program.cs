@@ -1,6 +1,9 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using MyMVC.NetApp.Data;
+using MyMVC.NetApp.Models.Strava;
 using MyMVC.NetApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +18,18 @@ builder.Services.AddHttpClient<IProductsApiClient, ProductsApiClient>(client =>
     client.BaseAddress = new Uri(baseUrl);
 });
 
+builder.Services.Configure<StravaOptions>(builder.Configuration.GetSection(StravaOptions.SectionName));
+builder.Services.AddHttpClient<IStravaApiClient, StravaApiClient>(client =>
+{
+    client.BaseAddress = new Uri("https://www.strava.com/");
+});
+builder.Services.AddDbContext<StravaDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("Strava") ?? "Data Source=strava.db";
+    options.UseSqlite(connectionString);
+});
+builder.Services.AddScoped<IStravaSyncService, StravaSyncService>();
+
 var supportedCultures = new[] { "en", "ga", "it" }.Select(c => new CultureInfo(c)).ToArray();
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
@@ -24,6 +39,12 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var stravaDb = scope.ServiceProvider.GetRequiredService<StravaDbContext>();
+    stravaDb.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

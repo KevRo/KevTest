@@ -142,4 +142,79 @@
   <data name="Lang_Italian" xml:space="preserve">
     <value>Iodáilis</value>
   </data>
+  <data name="Nav_Strava" xml:space="preserve">
+    <value>Strava</value>
+  </data>
+  <data name="Strava_Title" xml:space="preserve">
+    <value>Strava</value>
+  </data>
+  <data name="Strava_Heading" xml:space="preserve">
+    <value>Strava</value>
+  </data>
+  <data name="Strava_Intro" xml:space="preserve">
+    <value>Nasc do chuntas Strava chun do phróifíl lúthchleasaí agus do stair gníomhaíochta a tharraingt isteach san aip seo.</value>
+  </data>
+  <data name="Strava_ConnectButton" xml:space="preserve">
+    <value>Tarraing faisnéis Strava</value>
+  </data>
+  <data name="Strava_Fetching" xml:space="preserve">
+    <value>Ag tarraingt</value>
+  </data>
+  <data name="Strava_NotConnected" xml:space="preserve">
+    <value>Níl tú nasctha le Strava fós.</value>
+  </data>
+  <data name="Strava_ActivityCount" xml:space="preserve">
+    <value>Gníomhaíochtaí stóráilte</value>
+  </data>
+  <data name="Strava_TotalDistance" xml:space="preserve">
+    <value>Fad ar fad</value>
+  </data>
+  <data name="Strava_LastSynced" xml:space="preserve">
+    <value>Sioncronaithe go deireanach</value>
+  </data>
+  <data name="Strava_ConfigMissing" xml:space="preserve">
+    <value>Níl Strava cumraithe fós. Socraigh Strava:ClientId agus Strava:ClientSecret (féach an README) sula nasctar.</value>
+  </data>
+  <data name="Strava_OAuthDenied" xml:space="preserve">
+    <value>Cuireadh ar ceal nó diúltaíodh d'údarú Strava.</value>
+  </data>
+  <data name="Strava_OAuthError" xml:space="preserve">
+    <value>Níorbh fhéidir freagra sínithe isteach Strava a fhíorú. Bain triail eile as.</value>
+  </data>
+  <data name="Strava_ApiError" xml:space="preserve">
+    <value>Níorbh fhéidir Strava a bhaint amach. Bain triail eile as ar ball.</value>
+  </data>
+  <data name="Strava_SyncSuccess" xml:space="preserve">
+    <value>Tarraingíodh sonraí do {0}: {1} gníomhaíocht stóráilte.</value>
+  </data>
+  <data name="Strava_Activities_Heading" xml:space="preserve">
+    <value>Gníomhaíochtaí</value>
+  </data>
+  <data name="Strava_Activities_Empty" xml:space="preserve">
+    <value>Níor tarraingíodh aon ghníomhaíocht fós.</value>
+  </data>
+  <data name="Strava_Activities_Date" xml:space="preserve">
+    <value>Dáta</value>
+  </data>
+  <data name="Strava_Activities_Name" xml:space="preserve">
+    <value>Ainm</value>
+  </data>
+  <data name="Strava_Activities_Type" xml:space="preserve">
+    <value>Cineál</value>
+  </data>
+  <data name="Strava_Activities_Distance" xml:space="preserve">
+    <value>Fad</value>
+  </data>
+  <data name="Strava_Activities_Duration" xml:space="preserve">
+    <value>Fad ama</value>
+  </data>
+  <data name="Strava_Pagination_Summary" xml:space="preserve">
+    <value>Leathanach {0} as {1}</value>
+  </data>
+  <data name="Strava_Pagination_Previous" xml:space="preserve">
+    <value>Roimhe seo</value>
+  </data>
+  <data name="Strava_Pagination_Next" xml:space="preserve">
+    <value>Ar aghaidh</value>
+  </data>
 </root>

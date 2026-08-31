@@ -4,11 +4,12 @@ html {
 
 body {
   margin-bottom: 60px;
-  background-color: lightcoral;
+  background-color: #f5f5f5;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 [data-bs-theme="dark"] body {
-  background-color: #6b2c2c;
+  background-color: #121212;
 }
 
 .footer {
@@ -17,4 +18,34 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px;
+}
+
+#themeToggle {
+  line-height: 1;
+}
+
+.loading-dots span {
+  opacity: 0;
+  animation: strava-blink 1.4s infinite;
+}
+
+.loading-dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes strava-blink {
+  0%, 80%, 100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
 }

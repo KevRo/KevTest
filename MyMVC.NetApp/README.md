@@ -32,13 +32,33 @@ Open **http://localhost:5000** in your browser. `launchSettings.json` is set to 
 - `Program.cs` — app startup and routing
 - `Controllers/HomeController.cs` — Home and Privacy actions
 - `Controllers/ProductsController.cs` — responsive Products list/create/delete pages, backed by the `KevTest.Api` Products endpoints
+- `Controllers/StravaController.cs` — Strava OAuth connect/callback and the sync status page
 - `Services/ProductsApiClient.cs` — typed `HttpClient` wrapper for calling the Products API
-- `Views/` — Razor views (`Home/`, `Products/`, shared layout)
+- `Services/StravaApiClient.cs` / `StravaSyncService.cs` — Strava OAuth + API v3 client, and the service that pulls/stores the athlete's data
+- `Data/StravaDbContext.cs` — this app's own local SQLite database (Strava data only; unrelated to `KevTest.Api`'s database)
+- `Views/` — Razor views (`Home/`, `Products/`, `Strava/`, shared layout)
 - `wwwroot/` — static CSS/JS (Bootstrap is pulled from a CDN in the layout, no local copy needed)
 
 ## Products page
 
 The nav bar's **Products** link lists products from `KevTest.Api` in a responsive Bootstrap card grid (1 column on phones, up to 4 on wide screens), with a form to add a product and a delete button on each card. Set the API's base URL via `ProductsApi:BaseUrl` in `appsettings.json` (defaults to `http://localhost:5132`, the API's default HTTP port) — run `dotnet run --project ../src/KevTest.Api` alongside this app.
+
+## Strava page
+
+The nav bar's **Strava** link has a "Pull Strava information" button that runs Strava's OAuth flow, then pulls your athlete profile, lifetime stats, and *entire* activity history (paged `Strava:ActivitiesPerPage` at a time, default 200, with no page cap — it keeps going until Strava returns an empty page) into a local SQLite database (`strava.db` in this folder, created automatically on first run and gitignored — it's never committed). Every record keeps the full raw JSON Strava returned alongside the mapped columns, so no field is lost even if it isn't surfaced in the UI. The status card's "All-time distance" comes straight from Strava's own lifetime stats endpoint, not a sum of locally-stored activities, so it's accurate even if you haven't pulled your full history yet.
+
+**One-time setup:**
+
+1. Register an API application at [strava.com/settings/api](https://www.strava.com/settings/api). Set its **Authorization Callback Domain** to `localhost`.
+2. Note the **Client ID** and **Client Secret** shown there.
+3. From this folder, store them with `dotnet user-secrets` so they never end up in a committed file:
+   ```
+   dotnet user-secrets set "Strava:ClientId" "<your client id>"
+   dotnet user-secrets set "Strava:ClientSecret" "<your client secret>"
+   ```
+4. Run the app (`dotnet run`) and open the Strava page. Until the two secrets above are set, the button shows a "Strava isn't configured yet" message instead of connecting.
+
+The OAuth callback URL is `http://localhost:5000/Strava/Callback` (configurable via `Strava:RedirectUri` in `appsettings.json`) — this must match the app's port if you change it. Tokens and pulled data are stored locally only; nothing is sent anywhere except to Strava's own API.
 
 ## Language switcher
 

@@ -142,4 +142,79 @@
   <data name="Lang_Italian" xml:space="preserve">
     <value>Italiano</value>
   </data>
+  <data name="Nav_Strava" xml:space="preserve">
+    <value>Strava</value>
+  </data>
+  <data name="Strava_Title" xml:space="preserve">
+    <value>Strava</value>
+  </data>
+  <data name="Strava_Heading" xml:space="preserve">
+    <value>Strava</value>
+  </data>
+  <data name="Strava_Intro" xml:space="preserve">
+    <value>Collega il tuo account Strava per importare il tuo profilo atleta e la cronologia delle attività in questa app.</value>
+  </data>
+  <data name="Strava_ConnectButton" xml:space="preserve">
+    <value>Importa dati Strava</value>
+  </data>
+  <data name="Strava_Fetching" xml:space="preserve">
+    <value>Importazione</value>
+  </data>
+  <data name="Strava_NotConnected" xml:space="preserve">
+    <value>Non ancora connesso a Strava.</value>
+  </data>
+  <data name="Strava_ActivityCount" xml:space="preserve">
+    <value>Attività memorizzate</value>
+  </data>
+  <data name="Strava_TotalDistance" xml:space="preserve">
+    <value>Distanza totale di sempre</value>
+  </data>
+  <data name="Strava_LastSynced" xml:space="preserve">
+    <value>Ultima sincronizzazione</value>
+  </data>
+  <data name="Strava_ConfigMissing" xml:space="preserve">
+    <value>Strava non è ancora configurato. Imposta Strava:ClientId e Strava:ClientSecret (vedi README) prima di connetterti.</value>
+  </data>
+  <data name="Strava_OAuthDenied" xml:space="preserve">
+    <value>L'autorizzazione Strava è stata annullata o negata.</value>
+  </data>
+  <data name="Strava_OAuthError" xml:space="preserve">
+    <value>Impossibile verificare la risposta di accesso Strava. Riprova.</value>
+  </data>
+  <data name="Strava_ApiError" xml:space="preserve">
+    <value>Impossibile raggiungere Strava. Riprova più tardi.</value>
+  </data>
+  <data name="Strava_SyncSuccess" xml:space="preserve">
+    <value>Dati importati per {0}: {1} attività memorizzate.</value>
+  </data>
+  <data name="Strava_Activities_Heading" xml:space="preserve">
+    <value>Attività</value>
+  </data>
+  <data name="Strava_Activities_Empty" xml:space="preserve">
+    <value>Nessuna attività ancora importata.</value>
+  </data>
+  <data name="Strava_Activities_Date" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Strava_Activities_Name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Strava_Activities_Type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Strava_Activities_Distance" xml:space="preserve">
+    <value>Distanza</value>
+  </data>
+  <data name="Strava_Activities_Duration" xml:space="preserve">
+    <value>Durata</value>
+  </data>
+  <data name="Strava_Pagination_Summary" xml:space="preserve">
+    <value>Pagina {0} di {1}</value>
+  </data>
+  <data name="Strava_Pagination_Previous" xml:space="preserve">
+    <value>Precedente</value>
+  </data>
+  <data name="Strava_Pagination_Next" xml:space="preserve">
+    <value>Successivo</value>
+  </data>
 </root>

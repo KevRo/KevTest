@@ -34,10 +34,16 @@
                             <a class="nav-link" asp-controller="Products" asp-action="Index">@Localizer["Nav_Products"]</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" asp-controller="Strava" asp-action="Index">@Localizer["Nav_Strava"]</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Privacy">@Localizer["Nav_Privacy"]</a>
                         </li>
                     </ul>
                     <div class="d-flex align-items-center gap-2">
+                        <button id="themeToggle" class="btn btn-outline-secondary" type="button" title="Toggle dark mode" aria-label="Toggle dark mode">
+                            <span id="themeIcon">🌙</span>
+                        </button>
                         <div class="dropdown">
                             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 @(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName switch
@@ -53,7 +59,6 @@
                                 <li><a class="dropdown-item" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="it" asp-route-returnUrl="@Context.Request.Path">🇮🇹 @Localizer["Lang_Italian"]</a></li>
                             </ul>
                         </div>
-                        <button type="button" class="btn btn-outline-secondary" id="themeToggle" aria-pressed="false" aria-label="Toggle dark mode">🌙</button>
                     </div>
                 </div>
             </div>
