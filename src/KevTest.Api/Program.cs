@@ -1,3 +1,4 @@
+using KevTest.Api.GraphQL;
 using KevTest.Data;
 using KevTest.Services;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,12 @@ builder.Services.AddSwaggerGen();
 // Service layer: data access (KevTest.Data) + business services & external API client (KevTest.Services)
 builder.Services.AddDataLayer(builder.Configuration);
 builder.Services.AddServiceLayer(builder.Configuration);
+
+// GraphQL endpoint, alongside the existing REST controllers - same IProductService underneath.
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddMutationType<Mutation>();
 
 var app = builder.Build();
 
@@ -36,5 +43,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGraphQL();
 
 app.Run();
