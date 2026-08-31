@@ -136,11 +136,26 @@
             if (!btn || !label) {
                 return;
             }
-            btn.addEventListener('click', function () {
+            btn.addEventListener('click', function (e) {
+                if (btn.classList.contains('disabled')) {
+                    e.preventDefault();
+                    return;
+                }
+
+                // The click leads to an external OAuth redirect, which can complete fast
+                // enough that the browser navigates away before this frame is ever painted.
+                // Hold navigation for one short beat so the "Fetching..." animation is
+                // actually visible before the page leaves.
+                e.preventDefault();
                 var fetchingText = btn.dataset.fetchingText || 'Fetching';
                 label.innerHTML = fetchingText + '<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>';
                 btn.classList.add('disabled');
                 btn.setAttribute('aria-disabled', 'true');
+
+                var href = btn.getAttribute('href');
+                window.setTimeout(function () {
+                    window.location.href = href;
+                }, 400);
             });
         })();
     </script>
