@@ -39,6 +39,23 @@ public record StravaAthleteDto(
     [property: JsonPropertyName("ftp")] int? Ftp,
     [property: JsonPropertyName("weight")] double? Weight);
 
+public record StravaActivityTotalsDto(
+    [property: JsonPropertyName("count")] int Count,
+    [property: JsonPropertyName("distance")] double Distance,
+    [property: JsonPropertyName("moving_time")] int MovingTime,
+    [property: JsonPropertyName("elapsed_time")] int ElapsedTime,
+    [property: JsonPropertyName("elevation_gain")] double ElevationGain,
+    [property: JsonPropertyName("achievement_count")] int? AchievementCount);
+
+public record StravaAthleteStatsDto(
+    [property: JsonPropertyName("all_ride_totals")] StravaActivityTotalsDto? AllRideTotals,
+    [property: JsonPropertyName("all_run_totals")] StravaActivityTotalsDto? AllRunTotals,
+    [property: JsonPropertyName("all_swim_totals")] StravaActivityTotalsDto? AllSwimTotals)
+{
+    public double AllTimeDistanceMeters =>
+        (AllRideTotals?.Distance ?? 0) + (AllRunTotals?.Distance ?? 0) + (AllSwimTotals?.Distance ?? 0);
+}
+
 public record StravaActivityDto(
     [property: JsonPropertyName("id")] long Id,
     [property: JsonPropertyName("name")] string? Name,

@@ -63,16 +63,18 @@ public class StravaApiClient : IStravaApiClient
         return (dto, raw);
     }
 
-    public async Task<string?> GetAthleteStatsRawAsync(string accessToken, long athleteId, CancellationToken cancellationToken = default)
+    public async Task<(StravaAthleteStatsDto? Stats, string? RawJson)> GetAthleteStatsAsync(
+        string accessToken, long athleteId, CancellationToken cancellationToken = default)
     {
         try
         {
-            return await SendAuthorizedGetAsync($"api/v3/athletes/{athleteId}/stats", accessToken, cancellationToken);
+            var raw = await SendAuthorizedGetAsync($"api/v3/athletes/{athleteId}/stats", accessToken, cancellationToken);
+            return (JsonSerializer.Deserialize<StravaAthleteStatsDto>(raw, JsonOptions), raw);
         }
         catch (HttpRequestException)
         {
             // Stats are a nice-to-have; don't fail the whole sync if this one endpoint is unavailable.
-            return null;
+            return (null, null);
         }
     }
 

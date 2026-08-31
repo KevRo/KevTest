@@ -43,14 +43,23 @@ public class StravaSyncServiceTests
         Private: false, GearId: null);
 
     private static Mock<IStravaApiClient> CreateApiClientMock(int activitiesPerPage, params int[] countPerPage)
+        => CreateApiClientMockCore(activitiesPerPage, 10000, countPerPage);
+
+    private static Mock<IStravaApiClient> CreateApiClientMockCore(
+        int activitiesPerPage, double? allTimeDistanceMeters, int[] countPerPage)
     {
         var mock = new Mock<IStravaApiClient>();
         mock.Setup(c => c.ExchangeCodeForTokenAsync("auth-code", It.IsAny<CancellationToken>()))
             .ReturnsAsync(TokenResult());
         mock.Setup(c => c.GetAthleteAsync("access-abc", It.IsAny<CancellationToken>()))
             .ReturnsAsync((AthleteDto(), "{\"id\":42}"));
-        mock.Setup(c => c.GetAthleteStatsRawAsync("access-abc", 42, It.IsAny<CancellationToken>()))
-            .ReturnsAsync("{\"biggest_ride_distance\":50000}");
+
+        var stats = allTimeDistanceMeters is null
+            ? ((StravaAthleteStatsDto?)null, (string?)null)
+            : (new StravaAthleteStatsDto(
+                new StravaActivityTotalsDto(1, allTimeDistanceMeters.Value, 0, 0, 0, 0), null, null), "{\"all_ride_totals\":{}}");
+        mock.Setup(c => c.GetAthleteStatsAsync("access-abc", 42, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(stats);
 
         // Catch-all: any page not explicitly stubbed below behaves like Strava's real API once
         // activities run out and returns an empty page, so the sync loop stops.
@@ -74,7 +83,6 @@ public class StravaSyncServiceTests
         Mock<IStravaApiClient> apiClientMock, StravaDbContext db, StravaOptions? options = null)
         => new(apiClientMock.Object, db, Options.Create(options ?? new StravaOptions
         {
-            ActivitiesPageLimit = 5,
             ActivitiesPerPage = 2,
         }), new Mock<ILogger<StravaSyncService>>().Object);
 
@@ -124,17 +132,21 @@ public class StravaSyncServiceTests
     }
 
     [Fact]
-    public async Task SyncAsync_StopsAtPageLimit_EvenWhenMorePagesAreFull()
+    public async Task SyncAsync_KeepsPagingPastOneThousandActivities_WithNoLimit()
     {
-        var apiClientMock = CreateApiClientMock(2, 2, 2, 2);
+        // 7 full pages of 200 (1,400 activities - more than the old 5-page/1,000-activity cap)
+        // then a partial final page: there is no page-count cap any more, so all of it should
+        // be pulled in one sync, stopping only because page 8 comes back short.
+        var apiClientMock = CreateApiClientMockCore(200, 10000, new[] { 200, 200, 200, 200, 200, 200, 200, 50 });
         using var db = CreateContext();
-        var options = new StravaOptions { ActivitiesPageLimit = 2, ActivitiesPerPage = 2 };
+        var options = new StravaOptions { ActivitiesPerPage = 200 };
         var service = CreateService(apiClientMock, db, options);
 
         var result = await service.SyncAsync("auth-code");
 
-        Assert.Equal(4, result.ActivitiesPulled);
-        apiClientMock.Verify(c => c.GetActivitiesPageAsync("access-abc", 3, 2, It.IsAny<CancellationToken>()), Times.Never);
+        Assert.Equal(1450, result.ActivitiesPulled);
+        apiClientMock.Verify(c => c.GetActivitiesPageAsync("access-abc", 8, 200, It.IsAny<CancellationToken>()), Times.Once);
+        apiClientMock.Verify(c => c.GetActivitiesPageAsync("access-abc", 9, 200, It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -167,9 +179,9 @@ public class StravaSyncServiceTests
     }
 
     [Fact]
-    public async Task GetStatusAsync_ReturnsZeroTotalDistance_WhenAthleteHasNoActivities()
+    public async Task GetStatusAsync_ReturnsZeroTotalDistance_WhenStatsAreUnavailable()
     {
-        var apiClientMock = CreateApiClientMock(2);
+        var apiClientMock = CreateApiClientMockCore(2, allTimeDistanceMeters: null, countPerPage: new[] { 2 });
         using var db = CreateContext();
         var service = CreateService(apiClientMock, db);
         await service.SyncAsync("auth-code");
@@ -177,8 +189,24 @@ public class StravaSyncServiceTests
         var status = await service.GetStatusAsync();
 
         Assert.NotNull(status);
-        Assert.Equal(0, status!.ActivityCount);
-        Assert.Equal(0, status.TotalDistanceMeters);
+        Assert.Equal(0, status!.TotalDistanceMeters);
+    }
+
+    [Fact]
+    public async Task GetStatusAsync_TotalDistanceReflectsStravasLifetimeStats_NotJustStoredActivities()
+    {
+        // Only 2 activities are synced/stored, but Strava's own stats endpoint reports a much
+        // larger all-time total - the status should reflect that, not a sum of stored rows.
+        var apiClientMock = CreateApiClientMockCore(2, allTimeDistanceMeters: 987654, countPerPage: new[] { 2 });
+        using var db = CreateContext();
+        var service = CreateService(apiClientMock, db);
+        await service.SyncAsync("auth-code");
+
+        var status = await service.GetStatusAsync();
+
+        Assert.NotNull(status);
+        Assert.Equal(2, status!.ActivityCount);
+        Assert.Equal(987654, status.TotalDistanceMeters);
     }
 
     private static void AddActivity(StravaDbContext db, long id, long athleteId, DateTimeOffset startDate)

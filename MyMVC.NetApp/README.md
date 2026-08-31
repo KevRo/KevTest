@@ -45,7 +45,7 @@ The nav bar's **Products** link lists products from `KevTest.Api` in a responsiv
 
 ## Strava page
 
-The nav bar's **Strava** link has a "Pull Strava information" button that runs Strava's OAuth flow, then pulls your athlete profile, stats, and activity history (up to `Strava:ActivitiesPageLimit` × `Strava:ActivitiesPerPage` activities, default 1,000) into a local SQLite database (`strava.db` in this folder, created automatically on first run and gitignored — it's never committed). Every record keeps the full raw JSON Strava returned alongside the mapped columns, so no field is lost even if it isn't surfaced in the UI.
+The nav bar's **Strava** link has a "Pull Strava information" button that runs Strava's OAuth flow, then pulls your athlete profile, lifetime stats, and *entire* activity history (paged `Strava:ActivitiesPerPage` at a time, default 200, with no page cap — it keeps going until Strava returns an empty page) into a local SQLite database (`strava.db` in this folder, created automatically on first run and gitignored — it's never committed). Every record keeps the full raw JSON Strava returned alongside the mapped columns, so no field is lost even if it isn't surfaced in the UI. The status card's "All-time distance" comes straight from Strava's own lifetime stats endpoint, not a sum of locally-stored activities, so it's accurate even if you haven't pulled your full history yet.
 
 **One-time setup:**
 

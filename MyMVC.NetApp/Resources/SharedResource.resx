@@ -164,7 +164,7 @@
     <value>Activities stored</value>
   </data>
   <data name="Strava_TotalDistance" xml:space="preserve">
-    <value>Total distance</value>
+    <value>All-time distance</value>
   </data>
   <data name="Strava_LastSynced" xml:space="preserve">
     <value>Last synced</value>

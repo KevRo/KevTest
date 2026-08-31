@@ -31,12 +31,12 @@ public class StravaSyncService : IStravaSyncService
         var accessToken = token.AccessToken;
 
         var (athleteDto, athleteRawJson) = await _apiClient.GetAthleteAsync(accessToken, cancellationToken);
-        var statsRawJson = await _apiClient.GetAthleteStatsRawAsync(accessToken, athleteDto.Id, cancellationToken);
+        var (stats, statsRawJson) = await _apiClient.GetAthleteStatsAsync(accessToken, athleteDto.Id, cancellationToken);
 
         var now = DateTime.UtcNow;
 
         await UpsertTokenAsync(athleteDto.Id, token, now, cancellationToken);
-        await UpsertAthleteAsync(athleteDto, athleteRawJson, statsRawJson, now, cancellationToken);
+        await UpsertAthleteAsync(athleteDto, athleteRawJson, stats, statsRawJson, now, cancellationToken);
         var activitiesPulled = await PullActivitiesAsync(athleteDto.Id, accessToken, now, cancellationToken);
 
         await _db.SaveChangesAsync(cancellationToken);
@@ -59,9 +59,7 @@ public class StravaSyncService : IStravaSyncService
             return null;
         }
 
-        var athleteActivities = _db.StravaActivities.Where(a => a.AthleteId == athlete.Id);
-        var activityCount = await athleteActivities.CountAsync(cancellationToken);
-        var totalDistanceMeters = activityCount == 0 ? 0 : await athleteActivities.SumAsync(a => a.Distance, cancellationToken);
+        var activityCount = await _db.StravaActivities.CountAsync(a => a.AthleteId == athlete.Id, cancellationToken);
         var displayName = $"{athlete.Firstname} {athlete.Lastname}".Trim();
 
         return new StravaSyncStatus(
@@ -72,7 +70,7 @@ public class StravaSyncService : IStravaSyncService
             athlete.ProfileMediumUrl,
             athlete.FetchedAtUtc,
             activityCount,
-            totalDistanceMeters);
+            athlete.AllTimeDistanceMeters);
     }
 
     public async Task<StravaActivityPage> GetActivitiesAsync(
@@ -112,7 +110,7 @@ public class StravaSyncService : IStravaSyncService
     }
 
     private async Task UpsertAthleteAsync(
-        StravaAthleteDto dto, string rawJson, string? statsRawJson, DateTime now, CancellationToken cancellationToken)
+        StravaAthleteDto dto, string rawJson, StravaAthleteStatsDto? stats, string? statsRawJson, DateTime now, CancellationToken cancellationToken)
     {
         var entity = await _db.StravaAthletes.FindAsync(new object[] { dto.Id }, cancellationToken);
         if (entity is null)
@@ -139,6 +137,7 @@ public class StravaSyncService : IStravaSyncService
         entity.MeasurementPreference = dto.MeasurementPreference;
         entity.Ftp = dto.Ftp;
         entity.Weight = dto.Weight;
+        entity.AllTimeDistanceMeters = stats?.AllTimeDistanceMeters ?? 0;
         entity.ProfileRawJson = rawJson;
         entity.StatsRawJson = statsRawJson;
         entity.FetchedAtUtc = now;
@@ -148,7 +147,7 @@ public class StravaSyncService : IStravaSyncService
     {
         var activitiesPulled = 0;
 
-        for (var page = 1; page <= _options.ActivitiesPageLimit; page++)
+        for (var page = 1; ; page++)
         {
             var activities = await _apiClient.GetActivitiesPageAsync(accessToken, page, _options.ActivitiesPerPage, cancellationToken);
             if (activities.Count == 0)

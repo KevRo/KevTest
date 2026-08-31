@@ -91,28 +91,32 @@ public class StravaApiClientTests
     }
 
     [Fact]
-    public async Task GetAthleteStatsRawAsync_ReturnsNull_WhenApiCallFails()
+    public async Task GetAthleteStatsAsync_ReturnsNull_WhenApiCallFails()
     {
         var handler = new FakeHttpMessageHandler(_ => new HttpResponseMessage(HttpStatusCode.Forbidden));
         var client = CreateClient(handler);
 
-        var stats = await client.GetAthleteStatsRawAsync("access-abc", 42);
+        var (stats, rawJson) = await client.GetAthleteStatsAsync("access-abc", 42);
 
         Assert.Null(stats);
+        Assert.Null(rawJson);
     }
 
     [Fact]
-    public async Task GetAthleteStatsRawAsync_ReturnsRawJson_OnSuccess()
+    public async Task GetAthleteStatsAsync_ParsesAllTimeTotals_AndKeepsRawJson()
     {
         var handler = new FakeHttpMessageHandler(_ => new HttpResponseMessage(HttpStatusCode.OK)
         {
-            Content = new StringContent("{\"biggest_ride_distance\":50000}"),
+            Content = new StringContent(
+                "{\"all_ride_totals\":{\"count\":10,\"distance\":100000},\"all_run_totals\":{\"count\":5,\"distance\":50000}}"),
         });
         var client = CreateClient(handler);
 
-        var stats = await client.GetAthleteStatsRawAsync("access-abc", 42);
+        var (stats, rawJson) = await client.GetAthleteStatsAsync("access-abc", 42);
 
-        Assert.Equal("{\"biggest_ride_distance\":50000}", stats);
+        Assert.NotNull(stats);
+        Assert.Equal(150000, stats!.AllTimeDistanceMeters);
+        Assert.Contains("all_ride_totals", rawJson);
         Assert.Equal("/api/v3/athletes/42/stats", handler.LastRequest!.RequestUri!.AbsolutePath);
     }
 

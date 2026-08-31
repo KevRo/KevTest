@@ -22,6 +22,10 @@ public class StravaAthlete
     public int? Ftp { get; set; }
     public double? Weight { get; set; }
 
+    // All-time ride + run + swim distance, from Strava's own lifetime stats (not summed
+    // from locally-stored activities, so it's accurate even before/without a full activity pull).
+    public double AllTimeDistanceMeters { get; set; }
+
     // Full API responses, kept verbatim so no field Strava returns is ever lost
     // even if it isn't mapped to a column above.
     public string ProfileRawJson { get; set; } = string.Empty;
