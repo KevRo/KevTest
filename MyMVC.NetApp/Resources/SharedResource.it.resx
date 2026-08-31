@@ -157,6 +157,9 @@
   <data name="Strava_ConnectButton" xml:space="preserve">
     <value>Importa dati Strava</value>
   </data>
+  <data name="Strava_Fetching" xml:space="preserve">
+    <value>Importazione</value>
+  </data>
   <data name="Strava_NotConnected" xml:space="preserve">
     <value>Non ancora connesso a Strava.</value>
   </data>

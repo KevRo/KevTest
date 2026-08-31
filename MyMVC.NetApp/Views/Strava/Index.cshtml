@@ -54,12 +54,13 @@
                         </div>
                     </div>
                     <p class="mb-1">@Localizer["Strava_ActivityCount"]: <strong>@status.ActivityCount</strong></p>
-                    <p class="mb-1">@Localizer["Strava_TotalDistance"]: <strong>@((status.TotalDistanceMeters * 0.000621371).ToString("0.0")) mi</strong></p>
+                    <p class="mb-1">@Localizer["Strava_TotalDistance"]: <strong>@((status.TotalDistanceMeters / 1000).ToString("0.0")) km</strong></p>
                     <p class="text-muted small">@Localizer["Strava_LastSynced"]: @status.LastSyncedUtc.ToLocalTime().ToString("g")</p>
                 }
 
-                <a class="btn btn-primary mt-2" asp-controller="Strava" asp-action="Connect">
-                    <span aria-hidden="true">🚴</span> @Localizer["Strava_ConnectButton"]
+                <a id="stravaConnectBtn" class="btn btn-primary mt-2" asp-controller="Strava" asp-action="Connect"
+                   data-fetching-text="@Localizer["Strava_Fetching"]">
+                    <span aria-hidden="true">🚴</span> <span id="stravaConnectBtnLabel">@Localizer["Strava_ConnectButton"]</span>
                 </a>
             </div>
         </div>
@@ -126,3 +127,21 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        (function () {
+            var btn = document.getElementById('stravaConnectBtn');
+            var label = document.getElementById('stravaConnectBtnLabel');
+            if (!btn || !label) {
+                return;
+            }
+            btn.addEventListener('click', function () {
+                var fetchingText = btn.dataset.fetchingText || 'Fetching';
+                label.innerHTML = fetchingText + '<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>';
+                btn.classList.add('disabled');
+                btn.setAttribute('aria-disabled', 'true');
+            });
+        })();
+    </script>
+}

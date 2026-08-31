@@ -157,6 +157,9 @@
   <data name="Strava_ConnectButton" xml:space="preserve">
     <value>Tarraing faisnéis Strava</value>
   </data>
+  <data name="Strava_Fetching" xml:space="preserve">
+    <value>Ag tarraingt</value>
+  </data>
   <data name="Strava_NotConnected" xml:space="preserve">
     <value>Níl tú nasctha le Strava fós.</value>
   </data>
