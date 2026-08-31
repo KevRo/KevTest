@@ -73,7 +73,8 @@ public record StravaSyncStatus(
     string? Country,
     string? ProfileImageUrl,
     DateTime LastSyncedUtc,
-    int ActivityCount);
+    int ActivityCount,
+    double TotalDistanceMeters);
 
 public record StravaActivityListItem(
     long Id,

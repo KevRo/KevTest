@@ -53,7 +53,7 @@ public class StravaControllerTests
     [Fact]
     public async Task Index_ReturnsViewWithStatusAndActivities_FromSyncService()
     {
-        var status = new StravaSyncStatus(42, "Kev Roche", "Dublin", "Ireland", null, DateTime.UtcNow, 7);
+        var status = new StravaSyncStatus(42, "Kev Roche", "Dublin", "Ireland", null, DateTime.UtcNow, 7, 50000);
         var activityPage = new StravaActivityPage(
             new[] { new StravaActivityListItem(1, "Morning Run", "Run", DateTimeOffset.Now, 5000, 1500) }, 1, 100, 7);
         var syncServiceMock = new Mock<IStravaSyncService>();
@@ -88,7 +88,7 @@ public class StravaControllerTests
     [Fact]
     public async Task Index_ClampsPageToAtLeastOne_WhenPageIsZeroOrNegative()
     {
-        var status = new StravaSyncStatus(42, "Kev Roche", "Dublin", "Ireland", null, DateTime.UtcNow, 7);
+        var status = new StravaSyncStatus(42, "Kev Roche", "Dublin", "Ireland", null, DateTime.UtcNow, 7, 50000);
         var syncServiceMock = new Mock<IStravaSyncService>();
         syncServiceMock.Setup(s => s.GetStatusAsync(It.IsAny<CancellationToken>())).ReturnsAsync(status);
         syncServiceMock.Setup(s => s.GetActivitiesAsync(42, 1, 100, It.IsAny<CancellationToken>()))

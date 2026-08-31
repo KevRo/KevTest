@@ -163,6 +163,9 @@
   <data name="Strava_ActivityCount" xml:space="preserve">
     <value>Gníomhaíochtaí stóráilte</value>
   </data>
+  <data name="Strava_TotalDistance" xml:space="preserve">
+    <value>Fad iomlán</value>
+  </data>
   <data name="Strava_LastSynced" xml:space="preserve">
     <value>Sioncronaithe go deireanach</value>
   </data>

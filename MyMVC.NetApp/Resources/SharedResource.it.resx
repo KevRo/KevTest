@@ -163,6 +163,9 @@
   <data name="Strava_ActivityCount" xml:space="preserve">
     <value>Attività memorizzate</value>
   </data>
+  <data name="Strava_TotalDistance" xml:space="preserve">
+    <value>Distanza totale</value>
+  </data>
   <data name="Strava_LastSynced" xml:space="preserve">
     <value>Ultima sincronizzazione</value>
   </data>

@@ -59,7 +59,9 @@ public class StravaSyncService : IStravaSyncService
             return null;
         }
 
-        var activityCount = await _db.StravaActivities.CountAsync(a => a.AthleteId == athlete.Id, cancellationToken);
+        var athleteActivities = _db.StravaActivities.Where(a => a.AthleteId == athlete.Id);
+        var activityCount = await athleteActivities.CountAsync(cancellationToken);
+        var totalDistanceMeters = activityCount == 0 ? 0 : await athleteActivities.SumAsync(a => a.Distance, cancellationToken);
         var displayName = $"{athlete.Firstname} {athlete.Lastname}".Trim();
 
         return new StravaSyncStatus(
@@ -69,7 +71,8 @@ public class StravaSyncService : IStravaSyncService
             athlete.Country,
             athlete.ProfileMediumUrl,
             athlete.FetchedAtUtc,
-            activityCount);
+            activityCount,
+            totalDistanceMeters);
     }
 
     public async Task<StravaActivityPage> GetActivitiesAsync(

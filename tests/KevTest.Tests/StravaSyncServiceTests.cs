@@ -163,6 +163,22 @@ public class StravaSyncServiceTests
         Assert.Equal("Kev Roche", status.DisplayName);
         Assert.Equal("Dublin", status.City);
         Assert.Equal(2, status.ActivityCount);
+        Assert.Equal(10000, status.TotalDistanceMeters);
+    }
+
+    [Fact]
+    public async Task GetStatusAsync_ReturnsZeroTotalDistance_WhenAthleteHasNoActivities()
+    {
+        var apiClientMock = CreateApiClientMock(2);
+        using var db = CreateContext();
+        var service = CreateService(apiClientMock, db);
+        await service.SyncAsync("auth-code");
+
+        var status = await service.GetStatusAsync();
+
+        Assert.NotNull(status);
+        Assert.Equal(0, status!.ActivityCount);
+        Assert.Equal(0, status.TotalDistanceMeters);
     }
 
     private static void AddActivity(StravaDbContext db, long id, long athleteId, DateTimeOffset startDate)

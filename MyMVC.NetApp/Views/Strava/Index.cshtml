@@ -54,6 +54,7 @@
                         </div>
                     </div>
                     <p class="mb-1">@Localizer["Strava_ActivityCount"]: <strong>@status.ActivityCount</strong></p>
+                    <p class="mb-1">@Localizer["Strava_TotalDistance"]: <strong>@((status.TotalDistanceMeters * 0.000621371).ToString("0.0")) mi</strong></p>
                     <p class="text-muted small">@Localizer["Strava_LastSynced"]: @status.LastSyncedUtc.ToLocalTime().ToString("g")</p>
                 }
 
