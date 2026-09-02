@@ -28,7 +28,9 @@ tests/
   `IRepository<Product>` for data access; `ExternalApiClient` is a generic JSON HTTP wrapper
   around `HttpClient` for calling external APIs (`GetAsync`/`PostAsync`/`PutAsync`/`DeleteAsync`).
 - **KevTest.Api** is a thin ASP.NET Core Web API that wires up DI (`AddDataLayer`,
-  `AddServiceLayer`) and exposes `ProductsController` as an example consumer of the service layer.
+  `AddServiceLayer`) and exposes `ProductsController` (REST) and a GraphQL endpoint
+  (`GraphQL/Query.cs`, `GraphQL/Mutation.cs`) as two parallel consumers of the same
+  `IProductService` — same business logic, two query surfaces.
 
 ## Running
 
@@ -42,6 +44,22 @@ the working directory. Swagger UI is available at `/swagger` in Development.
 
 Configure the external API base URL via `ExternalApi:BaseUrl` in `appsettings.json` or environment
 variables.
+
+## GraphQL
+
+`/graphql` (built with [HotChocolate](https://chillicream.com/docs/hotchocolate)) exposes the same
+`Product` data as the REST API, alongside it rather than replacing it. Open `/graphql` in a
+browser for the built-in IDE, or POST queries directly:
+
+```bash
+curl -X POST http://localhost:5132/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"{ products { id name price } }"}'
+```
+
+Available operations: `products`, `product(id)`, `createProduct(input)`, `deleteProduct(id)` —
+defined in `src/KevTest.Api/GraphQL/Query.cs` and `Mutation.cs`, both resolving through the same
+`IProductService` the REST controller uses, so there's exactly one place business rules live.
 
 ## Testing
 
