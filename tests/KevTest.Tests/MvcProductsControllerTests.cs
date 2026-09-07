@@ -1,4 +1,5 @@
 using KevTest.Core.Dtos;
+using KevTest.Core.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -37,12 +38,12 @@ public class MvcProductsControllerTests
             new ProductDto(2, "Gadget", 20m)
         };
         var apiClientMock = new Mock<IProductsApiClient>();
-        apiClientMock.Setup(x => x.GetAllAsync(It.IsAny<CancellationToken>()))
+        apiClientMock.Setup(x => x.GetAllAsync(It.IsAny<ProductSortField?>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(products);
 
         var controller = CreateController(apiClientMock: apiClientMock);
 
-        var result = await controller.Index(CancellationToken.None);
+        var result = await controller.Index(sortBy: null, descending: false, CancellationToken.None);
 
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsAssignableFrom<IEnumerable<ProductDto>>(viewResult.Model);
@@ -50,16 +51,32 @@ public class MvcProductsControllerTests
     }
 
     [Fact]
+    public async Task Index_PassesRequestedSortFieldToApiClient()
+    {
+        var apiClientMock = new Mock<IProductsApiClient>();
+        apiClientMock.Setup(x => x.GetAllAsync(It.IsAny<ProductSortField?>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<ProductDto>());
+
+        var controller = CreateController(apiClientMock: apiClientMock);
+
+        await controller.Index(sortBy: "price", descending: true, CancellationToken.None);
+
+        apiClientMock.Verify(
+            x => x.GetAllAsync(ProductSortField.Price, true, It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    [Fact]
     public async Task Index_ReturnsViewWithEmptyList_WhenApiCallFails()
     {
         var apiClientMock = new Mock<IProductsApiClient>();
-        apiClientMock.Setup(x => x.GetAllAsync(It.IsAny<CancellationToken>()))
+        apiClientMock.Setup(x => x.GetAllAsync(It.IsAny<ProductSortField?>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new HttpRequestException("API unavailable"));
 
         var loggerMock = new Mock<ILogger<ProductsController>>();
         var controller = CreateController(apiClientMock: apiClientMock, loggerMock: loggerMock);
 
-        var result = await controller.Index(CancellationToken.None);
+        var result = await controller.Index(sortBy: null, descending: false, CancellationToken.None);
 
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsAssignableFrom<IEnumerable<ProductDto>>(viewResult.Model);

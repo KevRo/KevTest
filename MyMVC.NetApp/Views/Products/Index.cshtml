@@ -1,11 +1,28 @@
 @model IReadOnlyList<ProductDto>
 @{
     ViewData["Title"] = Localizer["Products_Title"];
+    var currentSort = ViewData["SortBy"] as string;
+    var isDescending = ViewData["Descending"] is true;
+
+    (string NextSort, bool NextDescending) SortLink(string field)
+        => currentSort == field ? (field, !isDescending) : (field, false);
 }
 
 <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
     <h1 class="mb-0">@Localizer["Products_Heading"]</h1>
     <a class="btn btn-primary" asp-action="Create">@Localizer["Products_Add"]</a>
+</div>
+
+<div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+    <span class="text-muted">@Localizer["Products_SortBy"]</span>
+    @foreach (var field in new[] { "name", "price" })
+    {
+        var link = SortLink(field);
+        var label = field == "name" ? Localizer["Products_SortByName"] : Localizer["Products_SortByPrice"];
+        var arrow = currentSort == field ? (isDescending ? " ↓" : " ↑") : "";
+        <a asp-action="Index" asp-route-sortBy="@link.NextSort" asp-route-descending="@link.NextDescending"
+           class="btn btn-sm @(currentSort == field ? "btn-primary" : "btn-outline-secondary")">@label@arrow</a>
+    }
 </div>
 
 @if (ViewData["ApiError"] is true)

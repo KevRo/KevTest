@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using KevTest.Core.Dtos;
+using KevTest.Core.Enums;
 using MyMVC.NetApp.Services;
 using Xunit;
 
@@ -8,17 +9,26 @@ namespace KevTest.Tests;
 
 public class MvcProductsApiClientTests
 {
+    private static HttpResponseMessage GraphQlProductsResponse(IReadOnlyList<ProductDto> products) =>
+        new(HttpStatusCode.OK)
+        {
+            Content = JsonContent.Create(new
+            {
+                data = new
+                {
+                    products = products.Select(p => new { id = p.Id, name = p.Name, price = p.Price })
+                }
+            })
+        };
+
     [Fact]
     public async Task GetAllAsync_ReturnsProducts()
     {
-        var handler = new FakeHttpMessageHandler(_ => new HttpResponseMessage(HttpStatusCode.OK)
+        var handler = new FakeHttpMessageHandler(_ => GraphQlProductsResponse(new List<ProductDto>
         {
-            Content = JsonContent.Create(new List<ProductDto>
-            {
-                new ProductDto(1, "Widget", 10m),
-                new ProductDto(2, "Gadget", 20m)
-            })
-        });
+            new ProductDto(1, "Widget", 10m),
+            new ProductDto(2, "Gadget", 20m)
+        }));
         var client = new ProductsApiClient(new HttpClient(handler) { BaseAddress = new Uri("https://localhost:5001/") });
 
         var result = await client.GetAllAsync();
@@ -31,10 +41,7 @@ public class MvcProductsApiClientTests
     [Fact]
     public async Task GetAllAsync_ReturnsEmptyList_WhenNoProducts()
     {
-        var handler = new FakeHttpMessageHandler(_ => new HttpResponseMessage(HttpStatusCode.OK)
-        {
-            Content = JsonContent.Create(new List<ProductDto>())
-        });
+        var handler = new FakeHttpMessageHandler(_ => GraphQlProductsResponse(new List<ProductDto>()));
         var client = new ProductsApiClient(new HttpClient(handler) { BaseAddress = new Uri("https://localhost:5001/") });
 
         var result = await client.GetAllAsync();
@@ -54,6 +61,20 @@ public class MvcProductsApiClientTests
         var result = await client.GetAllAsync();
 
         Assert.Empty(result);
+    }
+
+    [Fact]
+    public async Task GetAllAsync_SendsSortArgumentsInGraphQlQuery()
+    {
+        var handler = new FakeHttpMessageHandler(_ => GraphQlProductsResponse(new List<ProductDto>()));
+        var client = new ProductsApiClient(new HttpClient(handler) { BaseAddress = new Uri("https://localhost:5001/") });
+
+        await client.GetAllAsync(ProductSortField.Price, descending: true);
+
+        Assert.Equal("graphql", handler.LastRequest!.RequestUri!.AbsolutePath.TrimStart('/'));
+        var body = await handler.LastRequest.Content!.ReadAsStringAsync();
+        Assert.Contains("sortBy: PRICE", body);
+        Assert.Contains("descending: true", body);
     }
 
     [Fact]

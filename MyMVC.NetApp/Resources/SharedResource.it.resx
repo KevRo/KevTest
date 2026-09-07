@@ -100,6 +100,15 @@
   <data name="Products_Empty" xml:space="preserve">
     <value>Nessun prodotto ancora.</value>
   </data>
+  <data name="Products_SortBy" xml:space="preserve">
+    <value>Ordina per:</value>
+  </data>
+  <data name="Products_SortByName" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Products_SortByPrice" xml:space="preserve">
+    <value>Prezzo</value>
+  </data>
   <data name="Products_ApiError" xml:space="preserve">
     <value>Impossibile contattare l'API dei prodotti. Assicurati che KevTest.Api sia in esecuzione.</value>
   </data>

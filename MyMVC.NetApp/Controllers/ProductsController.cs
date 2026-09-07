@@ -1,4 +1,5 @@
 using KevTest.Core.Dtos;
+using KevTest.Core.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using MyMVC.NetApp.Services;
@@ -21,11 +22,21 @@ public class ProductsController : Controller
         _localizer = localizer;
     }
 
-    public async Task<IActionResult> Index(CancellationToken cancellationToken)
+    public async Task<IActionResult> Index(string? sortBy, bool descending, CancellationToken cancellationToken)
     {
+        var sortField = sortBy?.ToLowerInvariant() switch
+        {
+            "name" => ProductSortField.Name,
+            "price" => ProductSortField.Price,
+            _ => (ProductSortField?)null
+        };
+
+        ViewData["SortBy"] = sortField is null ? null : sortBy?.ToLowerInvariant();
+        ViewData["Descending"] = descending;
+
         try
         {
-            var products = await _productsApiClient.GetAllAsync(cancellationToken);
+            var products = await _productsApiClient.GetAllAsync(sortField, descending, cancellationToken);
             return View(products);
         }
         catch (HttpRequestException ex)
