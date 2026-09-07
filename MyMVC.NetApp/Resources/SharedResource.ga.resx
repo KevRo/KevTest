@@ -100,6 +100,15 @@
   <data name="Products_Empty" xml:space="preserve">
     <value>Níl aon táirgí ann fós.</value>
   </data>
+  <data name="Products_SortBy" xml:space="preserve">
+    <value>Sórtáil de réir:</value>
+  </data>
+  <data name="Products_SortByName" xml:space="preserve">
+    <value>Ainm</value>
+  </data>
+  <data name="Products_SortByPrice" xml:space="preserve">
+    <value>Praghas</value>
+  </data>
   <data name="Products_ApiError" xml:space="preserve">
     <value>Níorbh fhéidir teacht ar API na dTáirgí. Cinntigh go bhfuil KevTest.Api ag rith.</value>
   </data>

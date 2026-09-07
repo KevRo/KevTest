@@ -100,6 +100,15 @@
   <data name="Products_Empty" xml:space="preserve">
     <value>No products yet.</value>
   </data>
+  <data name="Products_SortBy" xml:space="preserve">
+    <value>Sort by:</value>
+  </data>
+  <data name="Products_SortByName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Products_SortByPrice" xml:space="preserve">
+    <value>Price</value>
+  </data>
   <data name="Products_ApiError" xml:space="preserve">
     <value>Could not reach the Products API. Make sure KevTest.Api is running.</value>
   </data>
