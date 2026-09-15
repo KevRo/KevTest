@@ -12,15 +12,22 @@ export default defineConfig({
   use: {
     baseURL: WEB_URL,
     trace: 'on-first-retry',
+    // Pin the locale: the app negotiates its UI language (en/ga/it) from
+    // Accept-Language, and the tests assert on English button text.
+    locale: 'en-US',
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
   ],
   webServer: [
     {
-      command: 'dotnet run --project ../src/KevTest.Api --no-launch-profile --urls ' + API_URL,
+      command:
+        'node scripts/reset-db.js && dotnet run --project ../src/KevTest.Api --no-launch-profile --urls ' +
+        API_URL,
       url: `${API_URL}/api/products`,
-      reuseExistingServer: !process.env.CI,
+      // Always start a fresh instance: reusing a developer's already-running
+      // dev server would point the suite at their real kevtest.db.
+      reuseExistingServer: false,
       timeout: 120_000,
       env: {
         ASPNETCORE_ENVIRONMENT: 'Development',
@@ -30,7 +37,7 @@ export default defineConfig({
     {
       command: 'dotnet run --project ../MyMVC.NetApp --no-launch-profile --urls ' + WEB_URL,
       url: WEB_URL,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: false,
       timeout: 120_000,
       env: {
         ASPNETCORE_ENVIRONMENT: 'Development',
