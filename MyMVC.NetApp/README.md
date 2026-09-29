@@ -33,8 +33,10 @@ Open **http://localhost:5000** in your browser. `launchSettings.json` is set to 
 - `Controllers/HomeController.cs` — Home and Privacy actions
 - `Controllers/ProductsController.cs` — responsive Products list/create/delete pages, backed by the `KevTest.Api` Products endpoints
 - `Controllers/StravaController.cs` — Strava OAuth connect/callback and the sync status page
+- `Controllers/AskStravaController.cs` — the "Ask Strava" chat page (question in, Claude's answer out)
 - `Services/ProductsApiClient.cs` — typed `HttpClient` wrapper for calling the Products API
 - `Services/StravaApiClient.cs` / `StravaSyncService.cs` — Strava OAuth + API v3 client, and the service that pulls/stores the athlete's data
+- `Services/AskStravaService.cs` — drives the Claude tool-use loop; `Services/SqlQueryTool.cs` / `SqlGuard.cs` — the read-only SQL tool Claude uses to query `strava.db`
 - `Data/StravaDbContext.cs` — this app's own local SQLite database (Strava data only; unrelated to `KevTest.Api`'s database)
 - `Views/` — Razor views (`Home/`, `Products/`, `Strava/`, shared layout)
 - `wwwroot/` — static CSS/JS (Bootstrap is pulled from a CDN in the layout, no local copy needed)
@@ -59,6 +61,23 @@ The nav bar's **Strava** link has a "Pull Strava information" button that runs S
 4. Run the app (`dotnet run`) and open the Strava page. Until the two secrets above are set, the button shows a "Strava isn't configured yet" message instead of connecting.
 
 The OAuth callback URL is `http://localhost:5000/Strava/Callback` (configurable via `Strava:RedirectUri` in `appsettings.json`) — this must match the app's port if you change it. Tokens and pulled data are stored locally only; nothing is sent anywhere except to Strava's own API.
+
+## Ask Strava (Claude Q&A)
+
+The nav bar's **Ask Strava** link is a chat page for asking free-form questions about your synced Strava data ("How many activities do I have?", "What's my average heart rate on rides vs runs?", "What was my longest run in March?"). Claude answers by writing and running its own read-only SQL against your local `strava.db` — there's no fixed list of supported questions. Conversation history is kept server-side in your browser session (`AskStravaController`) so follow-up questions work, and is lost when the app restarts.
+
+The SQL tool (`Services/SqlQueryTool.cs`) enforces read-only access in two ways: the SQLite connection itself is opened in read-only mode, and `Services/SqlGuard.cs` rejects anything that isn't a single `SELECT`/`WITH` statement (no semicolons, comments, or data-modifying keywords) before it ever reaches the database. It also refuses to query the `StravaTokens` table, since that holds your live OAuth tokens.
+
+**One-time setup:**
+
+1. Get an API key from [console.anthropic.com](https://console.anthropic.com/).
+2. From this folder, store it with `dotnet user-secrets` so it never ends up in a committed file:
+   ```
+   dotnet user-secrets set "Claude:ApiKey" "<your api key>"
+   ```
+3. Run the app (`dotnet run`), sync some Strava data first via the **Strava** page, then open **Ask Strava**. Until the key above is set, asking a question shows an "isn't configured yet" message instead of calling Claude.
+
+Only English strings were added for this page's UI text (`SharedResource.resx`); Irish/Italian translations are a follow-up.
 
 ## Language switcher
 

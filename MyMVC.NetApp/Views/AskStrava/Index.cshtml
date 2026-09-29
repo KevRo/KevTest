@@ -1,0 +1,83 @@
+@model MyMVC.NetApp.Models.Claude.AskStravaViewModel
+@{
+    ViewData["Title"] = Localizer["AskStrava_Title"];
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h1 class="mb-0">@Localizer["AskStrava_Heading"]</h1>
+    @if (Model.Thread.Count > 0)
+    {
+        <form asp-action="Clear" method="post">
+            <button type="submit" class="btn btn-outline-secondary btn-sm">@Localizer["AskStrava_ClearButton"]</button>
+        </form>
+    }
+</div>
+
+<p class="text-muted">@Localizer["AskStrava_Intro"]</p>
+
+@if (TempData["AskStravaError"] is string errorCode)
+{
+    var message = errorCode switch
+    {
+        "ConfigMissing" => Localizer["AskStrava_ConfigMissing"],
+        "AuthFailed" => Localizer["AskStrava_AuthFailed"],
+        "RateLimited" => Localizer["AskStrava_RateLimited"],
+        "ToolLoopExceeded" => Localizer["AskStrava_ToolLoopExceeded"],
+        _ => Localizer["AskStrava_ApiError"],
+    };
+    <div class="alert alert-danger" role="alert">@message</div>
+}
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        @if (Model.Thread.Count == 0)
+        {
+            <p class="text-muted mb-0">@Localizer["AskStrava_Empty"]</p>
+        }
+        else
+        {
+            <div class="d-flex flex-column gap-3">
+                @foreach (var turn in Model.Thread)
+                {
+                    <div>
+                        <div class="d-flex align-items-baseline gap-2">
+                            <strong>@Localizer["AskStrava_You"]</strong>
+                        </div>
+                        <p class="mb-2 text-break">@turn.Question</p>
+                        <div class="d-flex align-items-baseline gap-2">
+                            <strong>@Localizer["AskStrava_Claude"]</strong>
+                        </div>
+                        <p class="mb-0 text-break" style="white-space: pre-wrap;">@turn.Answer</p>
+                    </div>
+                    <hr class="my-0" />
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<form id="askStravaForm" asp-action="Ask" method="post">
+    <div class="mb-2">
+        <textarea name="question" class="form-control" rows="2" placeholder="@Localizer["AskStrava_QuestionPlaceholder"]" required></textarea>
+    </div>
+    <button id="askStravaSubmit" type="submit" class="btn btn-primary">
+        <span id="askStravaSubmitLabel">@Localizer["AskStrava_AskButton"]</span>
+    </button>
+</form>
+
+@section Scripts {
+    <script>
+        (function () {
+            var form = document.getElementById('askStravaForm');
+            var btn = document.getElementById('askStravaSubmit');
+            var label = document.getElementById('askStravaSubmitLabel');
+            if (!form || !btn || !label) {
+                return;
+            }
+            form.addEventListener('submit', function () {
+                btn.disabled = true;
+                label.textContent = '@Localizer["AskStrava_Thinking"]';
+            });
+        })();
+    </script>
+}

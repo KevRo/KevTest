@@ -1,8 +1,10 @@
 using System.Globalization;
+using Anthropic;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MyMVC.NetApp.Data;
+using MyMVC.NetApp.Models.Claude;
 using MyMVC.NetApp.Models.Strava;
 using MyMVC.NetApp.Services;
 
@@ -29,6 +31,24 @@ builder.Services.AddDbContext<StravaDbContext>(options =>
     options.UseSqlite(connectionString);
 });
 builder.Services.AddScoped<IStravaSyncService, StravaSyncService>();
+
+builder.Services.Configure<ClaudeOptions>(builder.Configuration.GetSection(ClaudeOptions.SectionName));
+builder.Services.AddSingleton(sp =>
+{
+    var claudeOptions = sp.GetRequiredService<IOptions<ClaudeOptions>>().Value;
+    return new AnthropicClient { ApiKey = claudeOptions.ApiKey };
+});
+builder.Services.AddScoped<ISqlQueryTool, SqlQueryTool>();
+builder.Services.AddScoped<IAskStravaService, AskStravaService>();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(4);
+    options.Cookie.Name = ".MyMVC.AskStrava.Session";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var supportedCultures = new[] { "en", "ga", "it" }.Select(c => new CultureInfo(c)).ToArray();
 builder.Services.Configure<RequestLocalizationOptions>(options =>
@@ -57,6 +77,8 @@ app.UseStaticFiles();
 app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 
