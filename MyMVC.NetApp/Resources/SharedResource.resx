@@ -226,4 +226,52 @@
   <data name="Strava_Pagination_Next" xml:space="preserve">
     <value>Next</value>
   </data>
+  <data name="Nav_AskStrava" xml:space="preserve">
+    <value>Ask Strava</value>
+  </data>
+  <data name="AskStrava_Title" xml:space="preserve">
+    <value>Ask Strava</value>
+  </data>
+  <data name="AskStrava_Heading" xml:space="preserve">
+    <value>Ask Strava</value>
+  </data>
+  <data name="AskStrava_Intro" xml:space="preserve">
+    <value>Ask questions about your synced Strava data in plain English. Claude writes and runs read-only queries against your local activity history to answer.</value>
+  </data>
+  <data name="AskStrava_Empty" xml:space="preserve">
+    <value>No questions asked yet. Try "How many activities do I have?" or "What was my longest run this year?"</value>
+  </data>
+  <data name="AskStrava_QuestionPlaceholder" xml:space="preserve">
+    <value>Ask a question about your Strava data...</value>
+  </data>
+  <data name="AskStrava_AskButton" xml:space="preserve">
+    <value>Ask</value>
+  </data>
+  <data name="AskStrava_Thinking" xml:space="preserve">
+    <value>Thinking...</value>
+  </data>
+  <data name="AskStrava_ClearButton" xml:space="preserve">
+    <value>Clear conversation</value>
+  </data>
+  <data name="AskStrava_You" xml:space="preserve">
+    <value>You</value>
+  </data>
+  <data name="AskStrava_Claude" xml:space="preserve">
+    <value>Claude</value>
+  </data>
+  <data name="AskStrava_ConfigMissing" xml:space="preserve">
+    <value>Ask Strava isn't configured yet. Set Claude:ApiKey (see README) before asking a question.</value>
+  </data>
+  <data name="AskStrava_AuthFailed" xml:space="preserve">
+    <value>Claude rejected the configured API key. Check Claude:ApiKey.</value>
+  </data>
+  <data name="AskStrava_RateLimited" xml:space="preserve">
+    <value>Claude is rate-limiting requests right now. Please try again shortly.</value>
+  </data>
+  <data name="AskStrava_ToolLoopExceeded" xml:space="preserve">
+    <value>Couldn't finish answering that one - try a more specific question.</value>
+  </data>
+  <data name="AskStrava_ApiError" xml:space="preserve">
+    <value>Could not reach Claude. Please try again later.</value>
+  </data>
 </root>
