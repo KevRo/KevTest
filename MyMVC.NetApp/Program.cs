@@ -39,7 +39,15 @@ builder.Services.AddSingleton(sp =>
     return new AnthropicClient { ApiKey = claudeOptions.ApiKey };
 });
 builder.Services.AddScoped<ISqlQueryTool, SqlQueryTool>();
-builder.Services.AddScoped<IAskStravaService, AskStravaService>();
+
+if (builder.Environment.IsEnvironment("E2E"))
+{
+    builder.Services.AddScoped<IAskStravaService, FakeAskStravaService>();
+}
+else
+{
+    builder.Services.AddScoped<IAskStravaService, AskStravaService>();
+}
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
